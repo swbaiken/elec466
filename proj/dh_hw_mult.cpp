@@ -2,17 +2,11 @@
 #include "digit.h"
 #include "dh_hw_mult.h"
 
-void dh_hw_mult::process_hw_mult()
-{
+void dh_hw_mult::do_mult() {
 	
-  NN_DIGIT a[2], b, c, t, u;
-  NN_HALF_DIGIT bHigh, bLow, cHigh, cLow;
-
-  for (;;) {  
-  
-    if (hw_mult_enable.read() == true) 
-    {	
-
+	NN_DIGIT a[2], b, c, t, u;
+	NN_HALF_DIGIT bHigh, bLow, cHigh, cLow;
+	
 	// Read inputs	
 	b = in_data_1.read();
 	c = in_data_2.read();
@@ -33,19 +27,31 @@ void dh_hw_mult::process_hw_mult()
   
   	if ((a[0] += u) < u) a[1]++;
   	a[1] += HIGH_HALF (t);
-		
- 	// Hardware multiplication delay = 100 ns
-	wait (100, SC_NS);
 	
 	// Write outputs
 	out_data_low.write(a[0]);
 	out_data_high.write(a[1]);
-		
-    }
-
-    wait();		// wait for a change of hw_mult_enable	
-
-  }
-	  	  
 }
 
+void dh_hw_mult::process_hw_mult()
+{
+
+	for (;;) {
+  	  
+		wait();
+		
+		if (hw_mult_enable.read() == true) {
+			
+			do_mult();
+			
+			while(hw_mult_enable.read() == true) {
+				hw_mult_done.write(true);
+				wait();
+			}
+			
+			hw_mult_done.write(false);
+			
+		}
+		
+	}
+}

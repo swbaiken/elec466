@@ -360,13 +360,26 @@ void dh_sw::NN_DigitMult (
 NN_DIGIT a[2], 
 NN_DIGIT b, 
 NN_DIGIT c
-)
-{
+) {
+	
+	out_data_1.write(b);				// Set up multiplicands
+	out_data_2.write(c);
+	
+	hw_mult_enable.write(true);	// Send Enable to multiplier and wait for Done
+	wait();
+	
+	a[0] = in_data_low.read();		// Get product
+	a[1] = in_data_high.read();
+	
+	hw_mult_enable.write(false);	// Clear Enable and wait for !Done
+	wait();
+	
+	// Multiply complete
+   
+}
 
-    out_data_1.write(b);
-    out_data_2.write(c);  
-    hw_mult_enable.write(true);
-    wait(10, SC_NS);		// communication delay (10 ns)
+// BEGIN old code
+//wait(10, SC_NS);		// communication delay (10 ns)
         
 // This computation is now performed in hardware, taking 100 ns...
 /*
@@ -392,16 +405,9 @@ NN_DIGIT c
   a[1] += HIGH_HALF (t);
 */
 
-    wait(100, SC_NS);		// hardware multiplication delay (100 ns)
-    wait(10, SC_NS);		// communication delay (10 ns)
-    
-    a[0] = in_data_low.read();
-    a[1] = in_data_high.read();
-  
-    hw_mult_enable.write(false);
-    wait(10, SC_NS);		// communication delay (10 ns)
-   
-}
+    //wait(100, SC_NS);		// hardware multiplication delay (100 ns)
+    //wait(10, SC_NS);		// communication delay (10 ns)
+// END
 
 
 /* Sets a = b / c, where a and c are digits.
