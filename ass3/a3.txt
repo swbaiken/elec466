@@ -1,0 +1,130 @@
+
+Q2
+
+If the failure on h does not affect g (and therefore Y), none of the test vectors expose the stuck-at-1 fault on branch h.
+
+If g and h remain connected and stuck at 1, A=0 B=1 C=1 will reveal the fault.
+
+
+
+Q3
+
+sff10 > 		 > sff20
+sff11 > core > sff21
+sff1x >		 > sff2x
+		--------
+
+Set up V1
+	scan = 1, hold = 0
+	clock in x test bits
+	scan = 0, hold = 1
+	wait for specified clock cycles
+	scan = 1, hold = 0
+	clock out x test bits
+
+
+Q4
+f(x) = x^8 + x^5 + x^3 + x^2 + 1
+Standard
+-----------X-------X----X-------
+> x7 x6 x5 ^ x4 x3 ^ x2 ^ x1 1 ^
+ 
+[Xn(t+1)] =  [ 0 1 0 0 0 0 0 0 ] [ Xn(t) ]
+					0 0 1 0 0 0 0 0 
+					0 0 0 1 0 0 0 0 
+					0 0 0 0 1 0 0 0
+					0 0 0 0 0 1 0 0
+					0 0 0 0 0 0 1 0
+					1 0 1 1 0 1 0 0
+
+Modular
+------v----v-------v----------
+>1-x1-X x2-X x3-x4-X x5-x6-x7^
+
+[Xn(t+1)] =  [ 0 0 0 0 0 0 0 1 ] [ Xn(t)]
+					1 0 0 0 0 0 0 0 
+					0 1 0 0 0 0 0 1
+					0 0 1 0 0 0 0 1
+					0 0 0 1 0 0 0 0
+					0 0 0 0 1 0 0 1
+					0 0 0 0 0 1 0 0
+					0 0 0 0 0 0 1 0
+
+
+Q5
+
+LFSR			x^8 + x^5 + x^3 + x^2 + 1
+
+multiple 	x^7 + x^5
+
+input			x^15 + x^13 + x^12 + x^9 + x^8 + x^7 + x^6 + x^3 + x^2 + 1
+					x^15 + x^12 + x^10 + x^9 + x^7
+
+					x^13 + x^10 + x^8 + x^6 + x^3 + x^2 + 1
+					x^13 + x^10 + x^8 + x^7 + x^5
+					
+signature	x^7 + x^6 + x^5 + x^3 + x^2 + 1
+
+input = LFSR * multiple + signature
+with a multiple of (x), the input becomes x^9 + x^7 + x^5 + x^4 + x^2 + x + 1,
+or 0000001010110111lsb
+
+
+Q6
+
+Multiple input signature register w/4 inputs
+x^4 + x^3 + 1
+input on all four inputs: 0011001100lsb > x^7 + x^6 + x^4 + x^3
+
+			 o1     o2     o3       o4
+     v---------------------v------
+in1 -X-[1]-X-[x1]-X-[x2]-X-X-[x3]^
+in2 -------^      |      |
+in3 --------------^      |
+in4 ---------------------^
+
+[Xn(t+1)] = [0 1 0 0][Xn(t)] + Dn
+				 0 0 1 0			  
+				 0 0 0 1				  
+				 1 0 0 1				  
+
+Dn >  0 0 1 1 0 0 1 1 0 0 0
+		0 0 0 1 1 0 0 1 1 0 0
+		0 0 0 0 1 1 0 0 1 1 0
+		0 0 0 0 0 1 1 0 0 1 1
+
+signature = (x^7 + x^6 + x^4 + x^3) mod (x^4 + x^3 + 1) + (x^8 + x^7 + x^5 + x^4) mod (x^4 + x^3 + 1) + (x^9 + x^8 + x^6 + x^5) mod (x^4 + x^3 + 1) + (x^10 + x^9 + x^7 + x^6) mod (x^4 + x^3 + 1)
+			 = x^4 + x^4 + x + x^4 + x^2 + x + x^2 + x + 1   
+
+x^3
+
+x^7 + x^6 + x^3
+x^4
+
+x^4 + x
+
+x^8 + x^7 + x^4
+x^5
+x^5 + x^4 + x
+
+x^5 + x^2 + x
+
+x^9 + x^8 + x^5
+x^6
+x^6 + x^5 + x^2
+x^5 + x^2
+x^5 + x^4 + x
+x^4 + x^2 + x
+
+x^6 + x^3 + x^2 + x + 1
+
+x^10 + x^9 + x^6
+x^7
+x^7 + x^6 + x^3
+x^6 + x^3
+x^6 + x^5 + x^2
+x^5 + x^3 + x^2
+x^5 + x^4 + x
+x^4 + x^3 + x^2 + x
+x^4 + x^3 + 1
+x^2 + x + 1
