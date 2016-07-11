@@ -1,0 +1,144 @@
+/*
+ * ELEC 466 - Assignment 1 - Question 3
+ * Shaun Aiken
+ * V00838297
+ */
+
+/*
+ * Stimulus Module
+ */
+#include "systemc.h"
+
+SC_MODULE (stim) {
+
+	sc_out	<float>	x;
+	sc_in_clk				clock;
+
+	void signal_gen() {
+
+		while (1) {
+			x.write(1);
+			wait();
+		}
+	}
+
+	SC_CTOR (stim) {
+		SC_CTHREAD (signal_gen, clock.pos());
+	}
+
+};
+
+/*
+ * Filter Module
+ */
+#include "systemc.h"
+
+SC_MODULE (filter) {
+
+	sc_in_clk 				clock;
+	sc_in			<float>	x;
+	sc_out		<float> y;
+
+	sc_signal	<float> s1, s2, s3;
+
+	void the_filter() {
+		while (1) {
+			wait();
+			s1.write(s1.read()*0.4 + x.read());
+			s2.write(s2.read()*(-0.8) + s3.read()*(-0.5) + x.read());
+			s3.write(s2.read());
+			y.write(s1.read()*0.24 + s2.read()*0.2 + s3.read()*0.25);
+		}
+	}
+
+	SC_CTOR (filter) {
+		SC_CTHREAD(the_filter, clock.pos());
+		s1.write(0.0);
+		s2.write(0.0);
+		s3.write(0.0);
+		y.initialize(0.0);
+	}
+};
+
+
+/*
+ * Monitor Module
+ */
+#include "systemc.h"
+#include <iomanip>
+
+using namespace std;
+
+SC_MODULE (mon) {
+
+	sc_in	<float>	x;
+	sc_in	<float> y;
+	sc_in_clk			clock;
+
+	void signal_mon() {
+		cout << "Filter test started." << endl;
+		cout << setw(10) << "Time" << setw(10) << "In" << setw(10) << "Out" << endl;
+
+		while(1) {
+			cout << setw(10) << sc_time_stamp() << setw(10) << x.read();
+			cout << setw(10) << y.read() << endl;
+			wait();
+		}
+	}
+
+	SC_CTOR (mon) {
+		SC_CTHREAD (signal_mon, clock.pos());
+	}
+
+};
+
+/*
+ * Main Module
+ */
+
+#include "systemc.h"
+
+#include "filter.h"
+#include "stim.h"
+#include "mon.h"
+
+int sc_main(int argc, char* argv[]) {
+	sc_signal <float> filter_in, filter_out;
+	sc_clock TestClk("TickTock",10,SC_NS,0.5,1,SC_NS);
+
+	// Instantiate and connect modules
+
+	stim Stim1("Stimulus");
+	Stim1.x(filter_in);
+	Stim1.clock(TestClk);
+
+	filter DUT("filter");
+	DUT.x(filter_in);
+	DUT.y(filter_out);
+	DUT.clock(TestClk);
+
+	mon Mon1("Monitor");
+	Mon1.x(filter_in);
+	Mon1.y(filter_out);
+	Mon1.clock(TestClk);
+
+	// Waveform trace generation
+
+	sc_trace_file* Tf=sc_create_vcd_trace_file("filter_trace");
+	
+	Tf->set_time_unit(1, SC_NS);
+	sc_trace(Tf, TestClk, "clk");
+	sc_trace(Tf, filter_in, "FilterInput");
+	sc_trace(Tf, DUT.s1, "S1");
+	sc_trace(Tf, DUT.s2, "S2");
+	sc_trace(Tf, DUT.s3, "S3");
+	sc_trace(Tf, filter_out, "FilterOutput");
+
+  // Start
+
+	sc_start(200,SC_NS);
+
+	sc_close_vcd_trace_file(Tf);
+	
+	return 0;
+}
