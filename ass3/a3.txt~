@@ -3,6 +3,9 @@ Q2
 
 If the failure on h does not affect g (and therefore Y), none of the test vectors expose the stuck-at-1 fault on branch h.
 
+If g and h remain connected and stuck at 1, A=0 B=1 C=1 will reveal the fault.
+
+
 
 Q3
 

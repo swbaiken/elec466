@@ -5,6 +5,7 @@
 template <class T> SC_MODULE (DF_Fork) {
 	
 	sc_fifo_in <T> input;
+	
 	sc_fifo_out <T> output1, output2;
 
 	void process() {
