@@ -58,7 +58,7 @@ void dh_hw_mult::state_transition() {
 			}
 			break;
 		case S1_EXECUTE:
-			h_hw_mult::do_mult(); // Part 3 is to cut this up into its own machine
+			dh_hw_mult::do_mult(); // Part 3 is to cut this up into its own machine
 			next_state.write(S2_OUTPUT);
 			break;
 		case S2_OUTPUT:
