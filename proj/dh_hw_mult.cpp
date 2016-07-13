@@ -33,9 +33,9 @@ void dh_hw_mult::do_mult() {
 	out_data_high.write(a[1]);
 }
 
-void dh_hw_mult::process_hw_mult() {
+/* void dh_hw_mult::process_hw_mult() {
 
-}
+} */
 
 void dh_hw_mult::state_reg() {
 	for (;;) {
@@ -48,39 +48,34 @@ void dh_hw_mult::state_reg() {
 }
 
 void dh_hw_mult::state_transition() {
-	for (;;) {
-  	  
-		wait();
-		
-		switch(state.read()) {
-			case S0_WAIT:
-				if (hw_mult_enable.read() == true) {
-					next_state.write(S1_EXECUTE);
-				}
-				else {
-					next_state.write(S0_WAIT);
-				}
-				break;
-			case S1_EXECUTE:
-				dh_hw_mult::do_mult();
-				next_state.write(S2_OUTPUT);
-				break;
-			case S2_OUTPUT:
-				// Extract output from do_mult?
-				hw_mult_done.write(true);
-				next_state.write(S3_FINISH);
-				break;
-			case S3_FINISH:
-				if (hw_mult_enable.read() == true) {
-					next_state.write(S3_FINISH);
-				}
-				else {
-					hw_mult_done.write(false);
-					next_state.write(S0_WAIT);
-				}
-				break;
-			default:
+	switch(state.read()) {
+		case S0_WAIT:
+			if (hw_mult_enable.read() == true) {
+				next_state.write(S1_EXECUTE);
+			}
+			else {
 				next_state.write(S0_WAIT);
-		}
+			}
+			break;
+		case S1_EXECUTE:
+			h_hw_mult::do_mult(); // Part 3 is to cut this up into its own machine
+			next_state.write(S2_OUTPUT);
+			break;
+		case S2_OUTPUT:
+			// Extract output from do_mult?
+			hw_mult_done.write(true);
+			next_state.write(S3_FINISH);
+			break;
+		case S3_FINISH:
+			if (hw_mult_enable.read() == true) {
+				next_state.write(S3_FINISH);
+			}
+			else {
+				hw_mult_done.write(false);
+				next_state.write(S0_WAIT);
+			}
+			break;
+		default:
+			next_state.write(S0_WAIT);
 	}
 }

@@ -20,7 +20,7 @@ SC_MODULE (dh_hw_mult)
 	
 	sc_signal<ctrl_state>	state, next_state;
 
-	void process_hw_mult();
+	//void process_hw_mult();
 	void state_transition();
 	void state_reg();
 
