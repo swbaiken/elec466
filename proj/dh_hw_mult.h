@@ -23,6 +23,7 @@ SC_MODULE (dh_hw_mult)
 	//void process_hw_mult();
 	void state_transition();
 	void state_reg();
+	void do_mult();
 
 	SC_CTOR (dh_hw_mult)
 	{
