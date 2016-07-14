@@ -55,7 +55,7 @@ void dh_hw_mult::state_reg() {
 }
 
 void dh_hw_mult::state_transition() {
-	
+	std::cout << "Transitioning!!";
 	switch(state.read()) {
 		case S0_WAIT:
 			if (hw_mult_enable.read() == true) {
