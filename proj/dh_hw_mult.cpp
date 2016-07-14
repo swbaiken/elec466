@@ -66,7 +66,7 @@ void dh_hw_mult::state_transition() {
 				}
 				break;
 			case S1_EXECUTE:
-					std::cout << "EXECUTE" << endl;
+					std::cout << "EXECUTE - out data: " << out_data_low.read() << " " << out_data_high.read() << endl;
 				dh_hw_mult::do_mult(); // Part 3 is to cut this up into its own machine
 				next_state.write(S2_OUTPUT);
 				break;
