@@ -56,7 +56,7 @@ void dh_hw_mult::state_transition() {
 		std::cout << "Transitioning!! ";
 		switch(state.read()) {
 			case S0_WAIT:
-					std::cout << "WAIT" << endl;
+					std::cout << "WAIT - done: " << hw_mult_done.read() << endl;
 				if (hw_mult_enable.read() == true) {
 					next_state.write(S1_EXECUTE);
 					std::cout << "Going to EXECUTE" << endl;
@@ -88,12 +88,12 @@ void dh_hw_mult::state_transition() {
 				}
 				break;
 			case S98_INIT:
-					std::cout << "98 to 99" << endl;
+					std::cout << "98 to 99 - done: " << hw_mult_done.read() << endl;
 				hw_mult_done.write(true);
 				next_state.write(S99_INIT);
 				break;
 			case S99_INIT:
-					std::cout << "99 to 0" << endl;
+					std::cout << "99 to 0 - done: " << hw_mult_done.read() << endl;
 				hw_mult_done.write(false);
 				next_state.write(S0_WAIT);
 				break;
