@@ -132,6 +132,7 @@ void dh_hw_mult::state_output() {
 				break;
 				
 			default:
+				break;
 		}
 		wait();
 	}
