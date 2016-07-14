@@ -29,7 +29,7 @@ SC_MODULE (dh_hw_mult)
 	SC_CTOR (dh_hw_mult)
 	{
 		SC_CTHREAD(state_reg, clk.pos());
-		SC_THREAD(state_transition);
+		SC_THREAD(state_output);
 			sensitive << state;
 		SC_THREAD(state_transition);
 			sensitive << state << hw_mult_enable;// << in_data_1 << in_data_2;

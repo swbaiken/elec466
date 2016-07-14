@@ -132,7 +132,6 @@ void dh_hw_mult::state_output() {
 				break;
 				
 			default:
-				next_state.write(S0_WAIT);
 		}
 		wait();
 	}
