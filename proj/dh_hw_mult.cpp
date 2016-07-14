@@ -46,7 +46,10 @@ void dh_hw_mult::state_reg() {
 		//If we want to add a reset
 		//if (reset.read() == SC_LOGIC_1) state.write(S0_BEGIN);
 		//else 
-		state.write(next_state.read());
+		if (next_state.read() != state.read()) {
+			std::cout "Curr: " << state.read() << "Next: " << next_state.read() << endl;
+			state.write(next_state.read());
+		}
 		wait();
 	}
 }
