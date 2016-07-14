@@ -4,7 +4,7 @@
 #ifndef _DH_HW_MULT_H_
 #define _DH_HW_MULT_H_ 1
 
-enum ctrl_state {S0_WAIT, S1_EXECUTE, S2_OUTPUT, S3_FINISH};
+enum ctrl_state {S0_WAIT, S1_EXECUTE, S2_OUTPUT, S3_FINISH, S98_INIT, S99_INIT};
 
 SC_MODULE (dh_hw_mult)
 {
@@ -32,7 +32,7 @@ SC_MODULE (dh_hw_mult)
 			sensitive << state;
 		
 		state.write(S0_WAIT);
-		next_state.write(S2_OUTPUT);
+		next_state.write(S98_INIT);
 		
 	}
   

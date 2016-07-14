@@ -66,7 +66,6 @@ void dh_hw_mult::state_transition() {
 			next_state.write(S2_OUTPUT);
 			break;
 		case S2_OUTPUT:
-				std::cout << "Going to FINISH" << endl;
 			// Extract output from do_mult?
 			hw_mult_done.write(true);
 			next_state.write(S3_FINISH);
@@ -80,6 +79,16 @@ void dh_hw_mult::state_transition() {
 				hw_mult_done.write(false);
 				next_state.write(S0_WAIT);
 			}
+			break;
+		case S98_INIT:
+				std::cout << "98 to 99" << endl;
+			hw_mult_done.write(true);
+			next_state.write(S99_INIT);
+			break;
+		case S99_INIT:
+				std::cout << "99 to 0" << endl;
+			hw_mult_done.write(false);
+			next_state.write(S0_WAIT);
 			break;
 		default:
 			next_state.write(S0_WAIT);
