@@ -71,7 +71,7 @@ void dh_hw_mult::state_transition() {
 				next_state.write(S2_OUTPUT);
 				break;
 			case S2_OUTPUT:
-					std::cout << "OUTPUT" << endl;
+					std::cout << "OUTPUT - out data: " << out_data_low.read() << " " << out_data_high.read() << endl;
 				// Extract output from do_mult?
 				hw_mult_done.write(true);
 				next_state.write(S3_FINISH);
