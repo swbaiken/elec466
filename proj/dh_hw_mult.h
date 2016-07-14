@@ -31,7 +31,7 @@ SC_MODULE (dh_hw_mult)
 		SC_THREAD(state_transition);
 			sensitive << state << hw_mult_enable << in_data_1 << in_data_2;
 		
-		state.write(S0_WAIT);
+		state.write(S98_INIT);
 		next_state.write(S98_INIT);
 		
 		// out_data_low.initialize(0);
