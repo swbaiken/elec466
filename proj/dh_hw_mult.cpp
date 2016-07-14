@@ -41,7 +41,7 @@ void dh_hw_mult::do_mult() {
 void dh_hw_mult::state_reg() {
 				std::cout << "Ping!" << endl;
 				wait();
-				std::cout << "Ping!" << endl;
+				std::cout << "Ping! " << next_state.read() << endl;
 				wait();
 				std::cout << "Ping!" << endl;
 				wait();
