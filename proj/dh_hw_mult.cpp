@@ -2,6 +2,7 @@
 #include "digit.h"
 #include "dh_hw_mult.h"
 
+
 void dh_hw_mult::do_mult() {
 	
 	NN_DIGIT a[2], b, c, t, u;
@@ -38,6 +39,7 @@ void dh_hw_mult::do_mult() {
 } */
 
 void dh_hw_mult::state_reg() {
+				std::cout << "Ping!" << endl;
 	for (;;) {
 		//If we want to add a reset
 		//if (reset.read() == SC_LOGIC_1) state.write(S0_BEGIN);
@@ -52,6 +54,7 @@ void dh_hw_mult::state_transition() {
 		case S0_WAIT:
 			if (hw_mult_enable.read() == true) {
 				next_state.write(S1_EXECUTE);
+				std::cout << "Going to EXECUTE" << endl;
 			}
 			else {
 				next_state.write(S0_WAIT);
