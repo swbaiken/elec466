@@ -53,12 +53,12 @@ void dh_hw_mult::state_reg() {
 
 void dh_hw_mult::state_transition() {
 	for(;;) {
-		std::cout << "Transitioning!! ";
+		// std::cout << "Transitioning!! ";
 		switch(state.read()) {
 			case S0_WAIT:
 				if (hw_mult_enable.read() == true) {
 					next_state.write(S1_EXECUTE);
-					std::cout << "Going to EXECUTE" << endl;
+					// std::cout << "Going to EXECUTE" << endl;
 				}
 				else {
 					next_state.write(S0_WAIT);
@@ -99,35 +99,35 @@ void dh_hw_mult::state_transition() {
 
 void dh_hw_mult::state_output() {
 	for(;;) {
-		std::cout << "Doing!! ";
+		// std::cout << "Doing!! ";
 		switch(state.read()) {
 			case S0_WAIT:
-				std::cout << "WAIT - done: " << hw_mult_done.read() << endl;
+				// std::cout << "WAIT - done: " << hw_mult_done.read() << endl;
 				break;
 				
 			case S1_EXECUTE:
-				std::cout << "EXECUTE - out data: " << out_data_low.read() << " " << out_data_high.read() << endl;
+				// std::cout << "EXECUTE - out data: " << out_data_low.read() << " " << out_data_high.read() << endl;
 				dh_hw_mult::do_mult(); // Part 3 is to cut this up into its own machine
 				break;
 				
 			case S2_OUTPUT:
-				std::cout << "OUTPUT - out data: " << out_data_low.read() << " " << out_data_high.read() << endl;
+				// std::cout << "OUTPUT - out data: " << out_data_low.read() << " " << out_data_high.read() << endl;
 				// Extract output from do_mult?
 				hw_mult_done.write(true);
 				break;
 				
 			case S3_FINISH:
-				std::cout << "FINISH" << endl;
+				// std::cout << "FINISH" << endl;
 				hw_mult_done.write(false);
 				break;
 				
 			case S98_INIT:
-				std::cout << "98 to 99 - done: " << hw_mult_done.read() << endl;
+				// std::cout << "98 to 99 - done: " << hw_mult_done.read() << endl;
 				hw_mult_done.write(true);
 				break;
 				
 			case S99_INIT:
-				std::cout << "99 to 0 - done: " << hw_mult_done.read() << endl;
+				// std::cout << "99 to 0 - done: " << hw_mult_done.read() << endl;
 				hw_mult_done.write(false);
 				break;
 				
