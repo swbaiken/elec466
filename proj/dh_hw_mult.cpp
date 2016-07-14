@@ -49,9 +49,6 @@ void dh_hw_mult::state_reg() {
 		if (next_state.read() != state.read()) {
 			std::cout << "Curr: " << state.read() << "Next: " << next_state.read() << endl;
 			state.write(next_state.read());
-		} 
-		else {
-			std::cout << "Spam";
 		}
 		wait();
 	}
