@@ -39,19 +39,6 @@ void dh_hw_mult::do_mult() {
 } */
 
 void dh_hw_mult::state_reg() {
-				std::cout << "Ping!" << endl;
-				wait();
-				std::cout << "Ping! " << next_state.read() << endl;
-			state.write(next_state.read());
-				wait();
-				std::cout << "Ping!" << endl;
-				wait();
-				std::cout << "Ping!" << endl;
-				wait();
-				std::cout << "Ping!" << endl;
-				wait();
-				std::cout << "Ping!" << endl;
-				wait();
 	for (;;) {
 		//If we want to add a reset
 		//if (reset.read() == SC_LOGIC_1) state.write(S0_BEGIN);
@@ -65,52 +52,54 @@ void dh_hw_mult::state_reg() {
 }
 
 void dh_hw_mult::state_transition() {
-	std::cout << "Transitioning!! ";
-	switch(state.read()) {
-		case S0_WAIT:
-				std::cout << "WAIT" << endl;
-			if (hw_mult_enable.read() == true) {
-				next_state.write(S1_EXECUTE);
-				std::cout << "Going to EXECUTE" << endl;
-			}
-			else {
-				next_state.write(S0_WAIT);
-			}
-			break;
-		case S1_EXECUTE:
-				std::cout << "EXECUTE" << endl;
-			dh_hw_mult::do_mult(); // Part 3 is to cut this up into its own machine
-			next_state.write(S2_OUTPUT);
-			break;
-		case S2_OUTPUT:
-				std::cout << "OUTPUT" << endl;
-			// Extract output from do_mult?
-			hw_mult_done.write(true);
-			next_state.write(S3_FINISH);
-			break;
-		case S3_FINISH:
-				std::cout << "FINISH" << endl;
-			if (hw_mult_enable.read() == true) {
+	for(;;) {
+		std::cout << "Transitioning!! ";
+		switch(state.read()) {
+			case S0_WAIT:
+					std::cout << "WAIT" << endl;
+				if (hw_mult_enable.read() == true) {
+					next_state.write(S1_EXECUTE);
+					std::cout << "Going to EXECUTE" << endl;
+				}
+				else {
+					next_state.write(S0_WAIT);
+				}
+				break;
+			case S1_EXECUTE:
+					std::cout << "EXECUTE" << endl;
+				dh_hw_mult::do_mult(); // Part 3 is to cut this up into its own machine
+				next_state.write(S2_OUTPUT);
+				break;
+			case S2_OUTPUT:
+					std::cout << "OUTPUT" << endl;
+				// Extract output from do_mult?
+				hw_mult_done.write(true);
 				next_state.write(S3_FINISH);
-			}
-			else {
-				std::cout << "Going to WAIT" << endl;
+				break;
+			case S3_FINISH:
+					std::cout << "FINISH" << endl;
+				if (hw_mult_enable.read() == true) {
+					next_state.write(S3_FINISH);
+				}
+				else {
+					std::cout << "Going to WAIT" << endl;
+					hw_mult_done.write(false);
+					next_state.write(S0_WAIT);
+				}
+				break;
+			case S98_INIT:
+					std::cout << "98 to 99" << endl;
+				hw_mult_done.write(true);
+				next_state.write(S99_INIT);
+				break;
+			case S99_INIT:
+					std::cout << "99 to 0" << endl;
 				hw_mult_done.write(false);
 				next_state.write(S0_WAIT);
-			}
-			break;
-		case S98_INIT:
-				std::cout << "98 to 99" << endl;
-			hw_mult_done.write(true);
-			next_state.write(S99_INIT);
-			break;
-		case S99_INIT:
-				std::cout << "99 to 0" << endl;
-			hw_mult_done.write(false);
-			next_state.write(S0_WAIT);
-			break;
-		default:
-			next_state.write(S0_WAIT);
+				break;
+			default:
+				next_state.write(S0_WAIT);
+		}
+		wait();
 	}
-	wait();
 }
