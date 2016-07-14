@@ -1568,7 +1568,7 @@ void dh_sw::process_sw()
   
   
   /* Set up agreement */
-
+	std::cout << "Its happening!!!" << endl;
   {    
     params = &PARAMS1;
 
