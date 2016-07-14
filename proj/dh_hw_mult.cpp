@@ -80,11 +80,6 @@ void dh_hw_mult::state_transition() {
 				next_state.write(S0_WAIT);
 			}
 			break;
-		case S98_INIT:
-				std::cout << "98 to 99" << endl;
-			hw_mult_done.write(true);
-			next_state.write(S99_INIT);
-			break;
 		case S99_INIT:
 				std::cout << "99 to 0" << endl;
 			hw_mult_done.write(false);
