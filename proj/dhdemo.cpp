@@ -31,7 +31,8 @@ int sc_main(int argc , char *argv[])
 	DH_HW_MULT.out_data_high (result2);	// result2 to software
 	DH_HW_MULT.hw_mult_done (done);		// hardware done
 
-	sc_start(10,SC_SEC);						// limit total run time
+	sc_start();
+	//sc_start(10,SC_SEC);						// limit total run time
 
 	return(0);
 }
