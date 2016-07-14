@@ -23,11 +23,14 @@ SC_MODULE (dh_hw_mult)
 	//void process_hw_mult();
 	void state_transition();
 	void state_reg();
+	void state_output();
 	void do_mult();
 
 	SC_CTOR (dh_hw_mult)
 	{
 		SC_CTHREAD(state_reg, clk.pos());
+		SC_THREAD(state_transition);
+			sensitive << state;
 		SC_THREAD(state_transition);
 			sensitive << state << hw_mult_enable;// << in_data_1 << in_data_2;
 		
