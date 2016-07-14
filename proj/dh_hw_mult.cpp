@@ -41,6 +41,16 @@ void dh_hw_mult::do_mult() {
 void dh_hw_mult::state_reg() {
 				std::cout << "Ping!" << endl;
 				wait();
+				std::cout << "Ping!" << endl;
+				wait();
+				std::cout << "Ping!" << endl;
+				wait();
+				std::cout << "Ping!" << endl;
+				wait();
+				std::cout << "Ping!" << endl;
+				wait();
+				std::cout << "Ping!" << endl;
+				wait();
 	for (;;) {
 		//If we want to add a reset
 		//if (reset.read() == SC_LOGIC_1) state.write(S0_BEGIN);
@@ -54,7 +64,7 @@ void dh_hw_mult::state_reg() {
 }
 
 void dh_hw_mult::state_transition() {
-	std::cout << "Transitioning!!";
+	std::cout << "Transitioning!! ";
 	switch(state.read()) {
 		case S0_WAIT:
 				std::cout << "WAIT" << endl;
