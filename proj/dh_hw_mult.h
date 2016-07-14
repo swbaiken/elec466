@@ -30,6 +30,10 @@ SC_MODULE (dh_hw_mult)
 		SC_CTHREAD(state_reg, clk.pos());
 		SC_METHOD(state_transition);
 			sensitive << state;
+		
+		state.write(S0_WAIT);
+		next_state.write(S2_OUTPUT);
+		
 	}
   
 };
