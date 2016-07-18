@@ -3,6 +3,8 @@
 #include "dh_hw_mult.h"
 
 
+
+
 void dh_hw_mult::do_mult() {
 	
 	NN_DIGIT a[2], b, c, t, u;
@@ -33,6 +35,25 @@ void dh_hw_mult::do_mult() {
 	out_data_low.write(a[0]);
 	out_data_high.write(a[1]);
 }
+
+void dh_hw_mult::mult_a0 {
+	mult_a0_out->write( (NN_DIGIT)((NN_HALF_DIGIT)LOW_HALF (b) * (NN_HALF_DIGIT)LOW_HALF (c)) );
+}
+
+void dh_hw_mult::mult_a1 {
+	mult_a1_out->write( (NN_DIGIT)((NN_HALF_DIGIT)HIGH_HALF (b) * (NN_HALF_DIGIT)HIGH_HALF (c)) );
+}
+
+void dh_hw_mult::mult_t {
+	mult_t_out->write( (NN_DIGIT)((NN_HALF_DIGIT)LOW_HALF (b) * (NN_HALF_DIGIT)HIGH_HALF (c)) );
+}
+
+void dh_hw_mult::mult_u {
+	mult_u_out->write( (NN_DIGIT)((NN_HALF_DIGIT)HIGH_HALF (b) * (NN_HALF_DIGIT)LOW_HALF (c)) );	
+}
+
+a0_mem
+
 
 /* void dh_hw_mult::process_hw_mult() {
 
