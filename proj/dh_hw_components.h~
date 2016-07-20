@@ -194,31 +194,5 @@ SC_MODULE (mux_3) {
 	}
 };
 
-/*
- * Input splitter
- */
-
-SC_MODULE (input_splitter) {
-	sc_in<NN_DIGIT>	in0;
-	sc_in<NN_DIGIT>	in1;
-	
-	sc_out<NN_DIGIT>	in0_low;
-	sc_out<NN_DIGIT>	in0_high;
-	sc_out<NN_DIGIT>	in1_low;
-	sc_out<NN_DIGIT>	in1_high;
-	
-	void func(void) {
-		in0_low->write(in0->read() & MAX_NN_HALF_DIGIT);
-		in0_high->write((in0->read() >> NN_HALF_DIGIT_BITS) & MAX_NN_HALF_DIGIT);
-		in1_low->write(in1->read() & MAX_NN_HALF_DIGIT);
-		in1_high->write((in1->read() >> NN_HALF_DIGIT_BITS) & MAX_NN_HALF_DIGIT);
-	}
-	
-	SC_CTOR(input_splitter) {
-			SC_METHOD(func);
-				sensitive << int1 << in0;
-	}
-};
-
 
 #endif

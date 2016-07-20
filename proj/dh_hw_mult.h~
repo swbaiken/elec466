@@ -37,7 +37,7 @@ SC_MODULE (dh_hw_mult)
 	mux_3				a1_mux;
 	half_shift_left	t_shift_left;
 	half_shift_right	t_shift_right;
-	input_splitter	splitter;
+	
 			
 	
 	sc_signal<ctrl_state>	state, next_state;
@@ -62,13 +62,6 @@ SC_MODULE (dh_hw_mult)
 		// out_data_low.initialize(0);
 		// out_data_high.initialize(0);
 		// hw_mult_done.initialize(true);
-		
-		splitter.in0(in_data_1);
-		splitter.in1(in_data_2);
-		splitter.in0_low(in0_low);
-		splitter.in0_high(in0_high);
-		splitter.in1_low(in1_low);
-		splitter.in1_high(in1_high);
 		
 		mult_a0.in1();
 		mult_a0.in2();
