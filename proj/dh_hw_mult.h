@@ -29,7 +29,7 @@ SC_MODULE (dh_hw_mult) {
 	sc_signal<NN_HALF_DIGIT> in0_low, in0_high, in1_low, in1_high;
 	sc_signal<NN_DIGIT> mult_a0_out, mult_a1_out, mult_u_out, mult_t_out;
 	sc_signal<sc_uint<1> > a0_in_mux, t_in_mux, u_in_mux;
-	sc_signal<sc_uint<1> > constants_sel;	
+	sc_signal<sc_uint<1> > constants_sel;
 	sc_signal<sc_uint<2> > a1_in_mux;
 	sc_signal<NN_DIGIT>	a0_mux_out, a1_mux_out, t_mux_out, u_mux_out;
 	sc_signal<NN_DIGIT>	a0_add_out, a1_add1_out, a1_add2_out, t_add_out;
@@ -38,7 +38,7 @@ SC_MODULE (dh_hw_mult) {
 	sc_signal<NN_DIGIT>	constants_out;
 	sc_signal<NN_DIGIT>	a0_out, a1_out, u_out, t_out;
 	sc_signal<bool>		a0_en, a1_en, u_en, t_en;
-	sc_signal<bool>		hw_mult_done_s;
+	//sc_signal<bool>		hw_mult_done_s;
 	//sc_signal<bool>		done_in, done_out, done_en;
 	
 	
@@ -57,7 +57,6 @@ SC_MODULE (dh_hw_mult) {
 	void state_transition();
 	void state_reg();
 	void state_output();
-	//void do_mult();
 	void multiplier_control();
 
 	SC_CTOR (dh_hw_mult) : 
@@ -67,17 +66,15 @@ SC_MODULE (dh_hw_mult) {
 		SC_THREAD(state_output);
 			sensitive << state;
 		SC_THREAD(state_transition);
-			sensitive << state << hw_mult_enable;// << in_data_1 << in_data_2;
+			sensitive << state << hw_mult_enable;
 		SC_CTHREAD(multiplier_control, clk.neg());
 		
 		state.write(S98_INIT);
 		next_state.write(S98_INIT);
 		
-		//out_data_low(out_data_low_s);
-		//out_data_high(out_data_high_s);
 		out_data_low(a0_out);
 		out_data_high(a1_out);
-		hw_mult_done(hw_mult_done_s);
+		//hw_mult_done(hw_mult_done_s);
 		
 		a0_in_mux.write(0);
 		a1_in_mux.write(0);
@@ -93,7 +90,7 @@ SC_MODULE (dh_hw_mult) {
 		
 		out_data_low.write(0);
 		out_data_high.write(0);
-		hw_mult_done_s.write(false);
+		//hw_mult_done.write(false);
 		
 		/*done.input(done_in);
 		done.output(done_out);
