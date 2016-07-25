@@ -154,13 +154,13 @@ void dh_hw_mult::multiplier_control() {
 	
 	while(1) {
 		switch (mult_state.read()) {
-			MS0_WAIT:
+			case MS0_WAIT:
 				if (mult_enable.read()) {
 					mult_state = MS1_RUN;
 				}
 				break;
 				
-			MS1_RUN:
+			case MS1_RUN:
 				// mux' should all be set to the multiplier input
 				// constants should be set to shift 1 to left half
 				// Enable copy of values from the multipliers
@@ -213,7 +213,7 @@ void dh_hw_mult::multiplier_control() {
 				mult_state = MS2_DONE;
 				break;
 				
-			MS2_DONE:
+			case MS2_DONE:
 				if (mult_enable.read() == false) {
 					mult_done.write(false);
 					mult_state.write(MS0_WAIT);
