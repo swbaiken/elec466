@@ -112,7 +112,7 @@ void dh_hw_mult::state_output() {
 			case S1_EXECUTE:
 				mult_enable.write(true);
 				// std::cout << "EXECUTE - out data: " << out_data_low.read() << " " << out_data_high.read() << endl;
-				dh_hw_mult::do_mult(); // Part 3 is to cut this up into its own machine
+				//dh_hw_mult::do_mult(); // Part 3 is to cut this up into its own machine
 				break;
 				
 			case S2_OUTPUT:
@@ -146,11 +146,6 @@ void dh_hw_mult::state_output() {
 
 // must run on the clock
 void dh_hw_mult::multiplier_control() {
-	a0_in_mux.write(0);
-	a1_in_mux.write(0);
-	t_in_mux.write(0);
-	u_in_mux.write(0);
-	constants_sel.write(0);
 	
 	while(1) {
 		switch (mult_state.read()) {
@@ -163,6 +158,13 @@ void dh_hw_mult::multiplier_control() {
 			case MS1_RUN:
 				// mux' should all be set to the multiplier input
 				// constants should be set to shift 1 to left half
+				a0_in_mux.write(0);
+				a1_in_mux.write(0);
+				t_in_mux.write(0);
+				u_in_mux.write(0);
+				constants_sel.write(0);
+				wait();
+				
 				// Enable copy of values from the multipliers
 				a0_en.write(1);
 				a1_en.write(1);
