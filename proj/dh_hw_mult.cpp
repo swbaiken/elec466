@@ -212,6 +212,8 @@ void dh_hw_mult::multiplier_control() {
 				
 				// stop updating a1 and signal that multiply is done
 				a1_en.write(0);
+				out_data_low.write(a0_out);
+				out_data_high.write(a1_out);
 				mult_done.write(true);
 				mult_state = MS2_DONE;
 				break;
