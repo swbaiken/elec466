@@ -181,7 +181,7 @@ void dh_hw_mult::multiplier_control() {
 				t_en.write(1);
 				wait();
 				
-				std::cout << "post mult" << endl;
+				std::cout << "post mult - a0:LL a1:HH u:HL t:LH" << endl;
 				std::cout << "a0 " << a0_out.read() << "  a1 " << a1_out.read() << endl;
 				std::cout << "t " << t_out.read() << "  u " << u_out.read() << endl << endl;
 				
@@ -189,15 +189,20 @@ void dh_hw_mult::multiplier_control() {
 				a0_en.write(0);
 				a1_en.write(0);
 				u_en.write(0);
+				t_en.write(0);
+				wait();
 				t_in_mux.write(1);
+				wait();
+				t_en.write(1);
 				wait();
 				
 				std::cout << "t = t + u" << endl;
 				std::cout << "a0 " << a0_out.read() << "  a1 " << a1_out.read() << " " << endl;
-				std::cout << "t " << t_out.read() << "  u " << u_out.read() << " post mult" << endl << endl;
+				std::cout << "t " << t_out.read() << "  u " << u_out.read() << endl << endl;
 				
 				// Stop updating t, conditionally switch a1 mux and update a1, update u
 				t_en.write(0);
+				wait();
 				
 				if (t_out.read() < u_out.read()) {
 					a1_in_mux.write(1);
@@ -213,7 +218,7 @@ void dh_hw_mult::multiplier_control() {
 				
 				std::cout << "if t < u then a1 += 00010000 - regardless, u = t<<16" << endl;
 				std::cout << "a0 " << a0_out.read() << "  a1 " << a1_out.read() << " " << endl;
-				std::cout << "t " << t_out.read() << "  u " << u_out.read() << " post mult" << endl << endl;
+				std::cout << "t " << t_out.read() << "  u " << u_out.read() << endl << endl;
 				
 				// Stop updating u, switch a0 mux, and allow a0 to update
 				u_en.write(0);
@@ -224,7 +229,7 @@ void dh_hw_mult::multiplier_control() {
 				
 				std::cout << "a0 += u" << endl;
 				std::cout << "a0 " << a0_out.read() << "  a1 " << a1_out.read() << " " << endl;
-				std::cout << "t " << t_out.read() << "  u " << u_out.read() << " post mult" << endl << endl;
+				std::cout << "t " << t_out.read() << "  u " << u_out.read() << endl << endl;
 				
 				// Stop updating a0, if a0 < u then switch the constant to add to a1 and en a1
 				// regardless, add the high half of t
@@ -245,7 +250,7 @@ void dh_hw_mult::multiplier_control() {
 				std::cout << "t shifted right " << t_shift_right_out.read() << endl;
 				std::cout << "if a0 < u then a1 += 1 - regardless, a1 += t>>16" << endl;
 				std::cout << "a0 " << a0_out.read() << "  a1 " << a1_out.read() << " " << endl;
-				std::cout << "t " << t_out.read() << "  u " << u_out.read() << " post mult" << endl << endl;
+				std::cout << "t " << t_out.read() << "  u " << u_out.read() << endl << endl;
 				
 				// stop updating a1 and signal that multiply is done
 				a1_en.write(0);
@@ -256,7 +261,7 @@ void dh_hw_mult::multiplier_control() {
 				
 				std::cout << "done - should be same as above" << endl;
 				std::cout << "a0 " << a0_out.read() << "  a1 " << a1_out.read() << " " << endl;
-				std::cout << "t " << t_out.read() << "  u " << u_out.read() << " post mult" << endl << endl;
+				std::cout << "t " << t_out.read() << "  u " << u_out.read() << endl << endl;
 				break;
 				
 			case MS2_DONE:
