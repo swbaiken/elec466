@@ -234,5 +234,6 @@ void dh_hw_mult::multiplier_control() {
 				mult_state.write(MS0_WAIT);
 				break;
 		}
+		wait();
 	}
 }
