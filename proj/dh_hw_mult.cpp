@@ -176,6 +176,7 @@ void dh_hw_mult::multiplier_control() {
 				u_en.write(1);
 				t_en.write(1);
 				wait();
+				std::cout << in0_high.read() << " " << in1_high.read() << " Low" << endl;
 				std::cout << in0_low.read() << " " << in1_low.read() << " Low" << endl;
 				std::cout << a0_out.read() << " " << a0_mux_out.read() << " " << a1_out.read() << " " << a1_mux_out.read() << "test" << endl;
 				// Stop updating a0, a1, u, and update t with adder output
