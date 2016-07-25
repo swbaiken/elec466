@@ -16,7 +16,7 @@ SC_MODULE (dh_hw_mult) {
 	sc_in<NN_DIGIT>	in_data_2;
 
 	sc_out<NN_DIGIT>	out_data_high;
-	sc_out<NN_DIGIT>	out_data_low;
+	sc_out<NN_DIGIT>	output_data_low;
 	sc_out<bool>		hw_mult_done;
 	
 	
@@ -86,13 +86,13 @@ SC_MODULE (dh_hw_mult) {
 		
 		constants_sel.write(0);
 		
-		out_data_low.write(0);
+		output_data_low.write(0);
 		out_data_high.write(0);
 		hw_mult_done.write(false);
 		
 		a0.input(a0_mux_out);
 		a0.output(a0_out);
-		a0.output(out_data_low_s);
+		a0.output(output_data_low);
 		a0.enable(a0_en);
 		
 		a1.input(a1_mux_out);
