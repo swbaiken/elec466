@@ -243,7 +243,8 @@ SC_MODULE (mem_unit) {
 		}
 	}
 	
-	SC_CTOR(mem_unit) {
+	SC_CTOR(mem_unit) :
+		input("input"), enable("enable"), output("output") {
 			SC_THREAD(func);
 				sensitive << enable;
 	}
