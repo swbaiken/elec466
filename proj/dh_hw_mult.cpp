@@ -177,6 +177,7 @@ void dh_hw_mult::multiplier_control() {
 				t_en.write(1);
 				wait();
 				
+				std::cout << a0_out.read() << endl;
 				// Stop updating a0, a1, u, and update t with adder output
 				a0_en.write(0);
 				a1_en.write(0);
