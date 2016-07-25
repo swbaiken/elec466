@@ -226,7 +226,7 @@ void dh_hw_mult::multiplier_control() {
 				break;
 				
 			case MS2_DONE:
-				std::cout << state.read() << " Done!" << endl;
+				std::cout << state.read() << " Done? ->" << mult_done.read() << endl;
 				if (mult_enable.read() == false) {
 					mult_done.write(false);
 					mult_state.write(MS0_WAIT);
