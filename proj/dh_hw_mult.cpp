@@ -68,6 +68,7 @@ void dh_hw_mult::state_transition() {
 				if (mult_done.read() == true) {
 					next_state.write(S2_OUTPUT);
 				}
+				std::cout << mult_done.read() << " Well?" << endl;
 				break;
 				
 			case S2_OUTPUT:
