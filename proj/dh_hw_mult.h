@@ -15,9 +15,9 @@ SC_MODULE (dh_hw_mult) {
 	sc_in<NN_DIGIT>	in_data_1;
 	sc_in<NN_DIGIT>	in_data_2;
 
-	sc_out<NN_DIGIT>	out_data_low;
 	sc_out<NN_DIGIT>	out_data_high;
 	sc_out<bool>		hw_mult_done;
+	sc_out<NN_DIGIT>	out_data_low;
 	
 	sc_signal<ctrl_states>	state, next_state;
 	sc_signal<mult_states>	mult_state;
