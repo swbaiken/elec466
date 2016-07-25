@@ -5,7 +5,7 @@
 
 
 
-void dh_hw_mult::do_mult() {
+/* void dh_hw_mult::do_mult() {
 	
 	NN_DIGIT a[2], b, c, t, u;
 	NN_HALF_DIGIT bHigh, bLow, cHigh, cLow;
@@ -34,11 +34,8 @@ void dh_hw_mult::do_mult() {
 	// Write outputs
 	out_data_low.write(a[0]);
 	out_data_high.write(a[1]);
-}
-
-/* void dh_hw_mult::process_hw_mult() {
-
 } */
+
 
 void dh_hw_mult::state_reg() {
 	for (;;) {

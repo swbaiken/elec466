@@ -16,11 +16,15 @@ SC_MODULE (dh_hw_mult) {
 	sc_in<NN_DIGIT>	in_data_2;
 
 	sc_out<NN_DIGIT>	out_data_high;
-	sc_out<bool>		hw_mult_done;
 	sc_out<NN_DIGIT>	out_data_low;
+	sc_out<bool>		hw_mult_done;
+	
+	
 	
 	sc_signal<ctrl_states>	state, next_state;
 	sc_signal<mult_states>	mult_state;
+	sc_signal<bool> mult_enable;
+	sc_signal<bool> mult_done;
 	
 	sc_signal<NN_HALF_DIGIT> in0_low, in0_high, in1_low, in1_high;
 	sc_signal<NN_DIGIT> mult_a0_out, mult_a1_out, mult_u_out, mult_t_out;
@@ -35,8 +39,7 @@ SC_MODULE (dh_hw_mult) {
 	sc_signal<NN_DIGIT>	a0_out, a1_out, u_out, t_out;
 	sc_signal<bool>		a0_en, a1_en, u_en, t_en;
 	
-	sc_signal<bool> mult_enable;
-	sc_signal<bool> mult_done;
+	//sc_signal<NN_DIGIT> out_data_low_s;
 	
 	
 	multiplier 		mult_a0, mult_a1, mult_u, mult_t;
@@ -48,29 +51,28 @@ SC_MODULE (dh_hw_mult) {
 	half_shift_left	t_shift_left;
 	half_shift_right	t_shift_right;
 	input_splitter	splitter;
-			
 	
-
-	//void process_hw_mult();
+	
 	void state_transition();
 	void state_reg();
 	void state_output();
-	void do_mult();
+	//void do_mult();
 	void multiplier_control();
 
 	SC_CTOR (dh_hw_mult) : 
-		clk("clk"), hw_mult_enable("hw_mult_enable"), in_data_1("in_data_1"), in_data_2("in_data_2"),out_data_high("out_data_high"), hw_mult_done("hw_mult_done"),out_data_low("out_data_low"),mult_a0("mult_a0"), mult_a1("mult_a1"), mult_u("mult_u"), mult_t("mult_t"), a0_plus_u("a0_plus_u"), a1_plus_shift_t("a1_plus_shift"), a1_plus_const("a1_plus_const"), t_plus_u("t_plus_u"), constants("constants"), a0("a0"), a1("a1"), u("u"), t("t"), a0_mux("a0_mux"), u_mux("u_mux"), t_mux("t_mux"), a1_mux("a1_mux"), t_shift_left("t_shift_left"), t_shift_right("t_shift_right"), splitter("splitter") {
+		clk("clk"), hw_mult_enable("hw_mult_enable"), in_data_1("in_data_1"), in_data_2("in_data_2"),out_data_high("out_data_high"), out_data_low("out_data_low"), hw_mult_done("hw_mult_done"), mult_a0("mult_a0"), mult_a1("mult_a1"), mult_u("mult_u"), mult_t("mult_t"), a0_plus_u("a0_plus_u"), a1_plus_shift_t("a1_plus_shift"), a1_plus_const("a1_plus_const"), t_plus_u("t_plus_u"), constants("constants"), a0("a0"), a1("a1"), u("u"), t("t"), a0_mux("a0_mux"), u_mux("u_mux"), t_mux("t_mux"), a1_mux("a1_mux"), t_shift_left("t_shift_left"), t_shift_right("t_shift_right"), splitter("splitter") {
 			
 		SC_CTHREAD(state_reg, clk.pos());
 		SC_THREAD(state_output);
 			sensitive << state;
 		SC_THREAD(state_transition);
 			sensitive << state << hw_mult_enable;// << in_data_1 << in_data_2;
-		SC_THREAD(multiplier_control);
-			sensitive << clk.neg();
+		SC_CTHREAD(multiplier_control, clk.neg());
 		
 		state.write(S98_INIT);
 		next_state.write(S98_INIT);
+		
+		//out_data_low(out_data_low_s);
 		
 		a0_in_mux.write(0);
 		a1_in_mux.write(0);
@@ -90,7 +92,7 @@ SC_MODULE (dh_hw_mult) {
 		
 		a0.input(a0_mux_out);
 		a0.output(a0_out);
-		a0.output(out_data_low);
+		a0.output(out_data_low_s);
 		a0.enable(a0_en);
 		
 		a1.input(a1_mux_out);
