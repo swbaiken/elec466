@@ -128,7 +128,7 @@ void dh_hw_mult::state_output() {
 			case S3_FINISH:
 				// std::cout << "FINISH" << endl;
 				//hw_mult_done_s.write(false);
-				hw_mult_done.write(true);
+				hw_mult_done.write(false);
 				break;
 				
 			case S98_INIT:
