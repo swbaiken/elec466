@@ -65,7 +65,7 @@ void dh_hw_mult::state_transition() {
 				break;
 				
 			case S1_EXECUTE:
-				if (mult_done.read()==true) {
+				if (mult_done.read() == true) {
 					next_state.write(S2_OUTPUT);
 				}
 				break;
@@ -157,7 +157,6 @@ void dh_hw_mult::multiplier_control() {
 				break;
 				
 			case MS1_RUN:
-				printf("Mult!\n");
 				// mux' should all be set to the multiplier input
 				// constants should be set to shift 1 to left half
 				a0_in_mux.write(0);
@@ -167,7 +166,6 @@ void dh_hw_mult::multiplier_control() {
 				constants_sel.write(0);
 				wait();
 				
-				printf("Mult!A\n");
 				// Enable copy of values from the multipliers
 				a0_en.write(1);
 				a1_en.write(1);
@@ -175,7 +173,6 @@ void dh_hw_mult::multiplier_control() {
 				t_en.write(1);
 				wait();
 				
-				printf("Mult!B\n");
 				// Stop updating a0, a1, u, and update t with adder output
 				a0_en.write(0);
 				a1_en.write(0);
@@ -183,7 +180,6 @@ void dh_hw_mult::multiplier_control() {
 				t_in_mux.write(1);
 				wait();
 				
-				printf("Mult!C\n");
 				// Stop updating t, conditionally switch a1 mux and update a1, update u
 				t_en.write(0);
 				
@@ -197,14 +193,12 @@ void dh_hw_mult::multiplier_control() {
 				u_en.write(1);
 				wait();
 				
-				printf("Mult!D\n");
 				// Stop updating u, switch a0 mux, and allow a0 to update
 				u_en.write(0);
 				a0_in_mux.write(1);
 				a0_en.write(1);
 				wait();
 				
-				printf("Mult!E\n");
 				// Stop updating a0, if a0 < u then switch the constant to add to a1 and en a1
 				// regardless, add the high half of t
 				a0_en.write(0);
@@ -216,7 +210,6 @@ void dh_hw_mult::multiplier_control() {
 				a1_in_mux.write(2);
 				wait();
 				
-				printf("Mult!F\n");
 				// stop updating a1 and signal that multiply is done
 				a1_en.write(0);
 				out_data_low.write(a0_out);
@@ -226,7 +219,6 @@ void dh_hw_mult::multiplier_control() {
 				break;
 				
 			case MS2_DONE:
-				std::cout << state.read() << " Done? ->" << mult_done.read() << endl;
 				if (mult_enable.read() == false) {
 					mult_done.write(false);
 					mult_state.write(MS0_WAIT);
