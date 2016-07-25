@@ -88,8 +88,8 @@ SC_MODULE (dh_hw_mult) {
 		
 		constants_sel.write(0);
 		
-		out_data_low.write(0);
-		out_data_high.write(0);
+		//out_data_low.write(0);
+		//out_data_high.write(0);
 		//hw_mult_done.write(false);
 		
 		/*done.input(done_in);
