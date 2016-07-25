@@ -157,6 +157,7 @@ void dh_hw_mult::multiplier_control() {
 				break;
 				
 			case MS1_RUN:
+				printf("Mult!\n");
 				// mux' should all be set to the multiplier input
 				// constants should be set to shift 1 to left half
 				a0_in_mux.write(0);
