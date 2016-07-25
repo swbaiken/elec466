@@ -116,22 +116,22 @@ void dh_hw_mult::state_output() {
 				// std::cout << "OUTPUT - out data: " << out_data_low.read() << " " << out_data_high.read() << endl;
 				// Extract output from do_mult?
 				mult_enable.write(false);
-				hw_mult_done.write(true);
+				hw_mult_done_s.write(true);
 				break;
 				
 			case S3_FINISH:
 				// std::cout << "FINISH" << endl;
-				hw_mult_done.write(false);
+				hw_mult_done_s.write(false);
 				break;
 				
 			case S98_INIT:
 				// std::cout << "98 to 99 - done: " << hw_mult_done.read() << endl;
-				hw_mult_done.write(true);
+				hw_mult_done_s.write(true);
 				break;
 				
 			case S99_INIT:
 				// std::cout << "99 to 0 - done: " << hw_mult_done.read() << endl;
-				hw_mult_done.write(false);
+				hw_mult_done_s.write(false);
 				break;
 				
 			default:

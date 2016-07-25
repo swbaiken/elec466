@@ -229,8 +229,8 @@ SC_MODULE (input_splitter) {
 
 template <class T>
 SC_MODULE (mem_unit) {
-	sc_in<T>	input;
-	sc_in<bool>			enable;
+	sc_in<T>		input;
+	sc_in<bool>	enable;
 	
 	sc_out<T>	output;
 	
