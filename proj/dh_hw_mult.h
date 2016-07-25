@@ -40,6 +40,7 @@ SC_MODULE (dh_hw_mult) {
 	sc_signal<bool>		a0_en, a1_en, u_en, t_en;
 	
 	sc_signal<NN_DIGIT> out_data_low_s;
+	sc_signal<NN_DIGIT> out_data_high_s;
 	
 	
 	multiplier 		mult_a0, mult_a1, mult_u, mult_t;
@@ -73,6 +74,7 @@ SC_MODULE (dh_hw_mult) {
 		next_state.write(S98_INIT);
 		
 		out_data_low(out_data_low_s);
+		out_data_high(out_data_high_s);
 		
 		a0_in_mux.write(0);
 		a1_in_mux.write(0);
@@ -92,12 +94,12 @@ SC_MODULE (dh_hw_mult) {
 		
 		a1.input(a1_mux_out);
 		a1.output(a1_out);
-		a1.output(out_data_low);
+		a1.output(out_data_high_s);
 		a1.enable(a1_en);
 		
 		a0.input(a0_mux_out);
 		a0.output(a0_out);
-		a0.output(out_data_low);
+		a0.output(out_data_low_s);
 		a0.enable(a0_en);
 		
 		u.input(u_mux_out);
