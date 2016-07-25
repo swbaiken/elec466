@@ -79,6 +79,7 @@ void dh_hw_mult::state_transition() {
 					next_state.write(S3_FINISH);
 				}
 				std::cout << hw_mult_enable.read() << " OUTPUT" << endl;
+				std::cout << in_data_1.read() << " " << in_data_2.read() << " " << out_data_high.read() << " " << out_data_low.read() << endl;
 				break;
 				
 			case S3_FINISH:
