@@ -227,11 +227,12 @@ SC_MODULE (input_splitter) {
  * Memory unit
  */
 
+template <class T>
 SC_MODULE (mem_unit) {
-	sc_in<NN_DIGIT>	input;
+	sc_in<T>	input;
 	sc_in<bool>			enable;
 	
-	sc_out<NN_DIGIT>	output;
+	sc_out<T>	output;
 	
 	void func(void) {
 		while(1) {
