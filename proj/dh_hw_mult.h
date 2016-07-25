@@ -77,8 +77,6 @@ SC_MODULE (dh_hw_mult) {
 		state.write(S98_INIT);
 		next_state.write(S98_INIT);
 		
-		hw_mult_done
-		
 		a0_in_mux.write(0);
 		a1_in_mux.write(0);
 		t_in_mux.write(0);
