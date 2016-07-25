@@ -230,6 +230,8 @@ void dh_hw_mult::multiplier_control() {
 				}
 				a1_in_mux.write(2);
 				wait();
+				a1_en.write(1);
+				wait();
 				
 				std::cout << "if a0 < u then a1 += 1 - regardless, a1 += t>>16" << endl;
 				std::cout << "a0 " << a0_out.read() << "  a1 " << a1_out.read() << " " << endl;
