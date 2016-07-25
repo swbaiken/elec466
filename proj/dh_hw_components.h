@@ -234,13 +234,16 @@ SC_MODULE (mem_unit) {
 	sc_out<NN_DIGIT>	output;
 	
 	void func(void) {
-		if (enable.read()) {
-			output.write(input.read());
+		while(1) {
+			if (enable.read()) {
+				output.write(input.read());
+			}
+			wait();
 		}
 	}
 	
 	SC_CTOR(mem_unit) {
-			SC_METHOD(func);
+			SC_THREAD(func);
 				sensitive << enable;
 	}
 };
