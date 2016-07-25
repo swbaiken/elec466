@@ -226,7 +226,7 @@ void dh_hw_mult::multiplier_control() {
 				break;
 				
 			case MS2_DONE:
-				printf("Done!\n");
+				printf("%s Done!\n",state.read());
 				if (mult_enable.read() == false) {
 					mult_done.write(false);
 					mult_state.write(MS0_WAIT);
