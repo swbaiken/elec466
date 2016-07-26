@@ -1,6 +1,6 @@
 #include "systemc.h"
 #include "digit.h"
-#include "dh_sw.h"
+#include "test.h"//#include "dh_sw.h"
 #include "dh_hw_mult.h"
 
 int sc_main(int argc , char *argv[])
@@ -20,6 +20,7 @@ int sc_main(int argc , char *argv[])
 	DH_SW.in_data_low (result1);		// result1 from hardware
 	DH_SW.hw_mult_enable (enable);	// enable hardware
 	DH_SW.hw_mult_done (done);			// hardware done
+	
 	
 	
 	dh_hw_mult DH_HW_MULT("DH_Hardware_Multiplier");
