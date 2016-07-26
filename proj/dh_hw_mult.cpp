@@ -109,18 +109,20 @@ void dh_hw_mult::state_output() {
 		
 		switch(state.read()) {
 			case S0_WAIT:
-				//hw_mult_done.write(false);
-				// std::cout << "WAIT - done: " << hw_mult_done.read() << endl;
+				if (hw_mult_done.read() == true) {
+					hw_mult_done.write(false);
+				}
+				std::cout << "WAIT - done: " << hw_mult_done.read() << endl;
 				break;
 				
 			case S1_EXECUTE:
 				mult_enable.write(true);
-				// std::cout << "EXECUTE - out data: " << out_data_low.read() << " " << out_data_high.read() << endl;
+				std::cout << "EXECUTE - out data: " << out_data_low.read() << " " << out_data_high.read() << endl;
 				//dh_hw_mult::do_mult(); // Part 3 is to cut this up into its own machine
 				break;
 				
 			case S2_OUTPUT:
-				// std::cout << "OUTPUT - out data: " << out_data_low.read() << " " << out_data_high.read() << endl;
+				std::cout << "OUTPUT - out data: " << out_data_low.read() << " " << out_data_high.read() << endl;
 				// Extract output from do_mult?
 				mult_enable.write(false);
 				//hw_mult_done_s.write(true);
@@ -128,7 +130,7 @@ void dh_hw_mult::state_output() {
 				break;
 				
 			case S3_FINISH:
-				// std::cout << "FINISH" << endl;
+				std::cout << "FINISH" << endl;
 				//hw_mult_done_s.write(false);
 				hw_mult_done.write(false);
 				break;

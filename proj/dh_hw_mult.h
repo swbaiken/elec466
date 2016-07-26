@@ -74,7 +74,7 @@ SC_MODULE (dh_hw_mult) {
 		
 		out_data_low.initialize(0);
 		out_data_high.initialize(0);
-		hw_mult_done.initialize(true);
+		hw_mult_done.initialize(false);
 		
 		a0_in_mux.write(0);
 		a1_in_mux.write(0);
