@@ -5,7 +5,7 @@
 #include "digit.h"
 #include "dh_hw_components.h"
 
-enum ctrl_states {S0_WAIT, S1_EXECUTE, S2_OUTPUT, S3_FINISH, S98_INIT, S99_INIT};
+enum ctrl_states {S0_WAIT, S1_EXECUTE, S2_OUTPUT, S3_FINISH);//, S98_INIT, S99_INIT};
 enum mult_states {MS0_WAIT, MS1_RUN, MS2_DONE};
 
 SC_MODULE (dh_hw_mult) {
