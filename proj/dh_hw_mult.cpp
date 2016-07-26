@@ -134,7 +134,7 @@ void dh_hw_mult::state_output() {
 				//hw_mult_done_s.write(false);
 				hw_mult_done.write(false);
 				break;
-				
+				/*
 			case S98_INIT:
 				// std::cout << "98 to 99 - done: " << hw_mult_done.read() << endl;
 				//hw_mult_done_s.write(true);
@@ -145,7 +145,7 @@ void dh_hw_mult::state_output() {
 				// std::cout << "99 to 0 - done: " << hw_mult_done.read() << endl;
 				//hw_mult_done_s.write(false);
 				hw_mult_done.write(false);
-				break;
+				break;*/
 				
 			default:
 				break;
