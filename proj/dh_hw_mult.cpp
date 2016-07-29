@@ -274,6 +274,7 @@ void dh_hw_mult::multiplier_control() {
 				a1_en.write(0);
 				out_data_low.write(a0_out);
 				out_data_high.write(a1_out);
+				wait();
 				mult_done.write(true);
 				mult_state = MS2_DONE;
 				
