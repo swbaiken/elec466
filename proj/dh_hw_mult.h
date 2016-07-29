@@ -67,7 +67,8 @@ SC_MODULE (dh_hw_mult) {
 		SC_THREAD(state_control);
 			sensitive << state << hw_mult_enable;// << mult_done;
 			dont_initialize();
-		SC_CTHREAD(multiplier_control, clk.pos());
+		SC_THREAD(multiplier_control)
+			sensitive << clk.pos() << mult_enable;
 			dont_initialize();
 		
 		state.write(S0_WAIT);
