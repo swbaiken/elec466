@@ -260,6 +260,7 @@ void dh_hw_mult::multiplier_control() {
 				// regardless, add the high half of t
 				a0_en.write(0);
 				if (a0_out.read() < u_out.read() ) {
+					a1_in_mux.write(1);
 					constants_sel.write(1);
 					wait();
 					a1_en.write(1);
