@@ -35,7 +35,7 @@
 	// Write outputs
 	out_data_low.write(a[0]);
 	out_data_high.write(a[1]);
-} 
+}
 
 
 void dh_hw_mult::state_advance() {
@@ -125,10 +125,7 @@ void dh_hw_mult::state_control() {
 				// if (mult_done.read() == true) {
 					// mult_enable.write(false);
 				// }
-				std::cout << "lets go" << endl;
 				dh_hw_mult::do_mult(); // Part 3 is to cut this up into its own machine
-				next_state.write(S2_OUTPUT);
-				std::cout << "done" << endl;
 				break;
 				
 			case S2_OUTPUT:
