@@ -49,12 +49,12 @@ SC_MODULE (dh_hw_mult) {
 	half_shift_left		t_shift_left;
 	half_shift_right		t_shift_right;
 	input_splitter			splitter;
-	//mem_unit<bool>		done;
 	
 	
 	void state_advance();
 	void state_control();
 	void multiplier_control();
+	void do_mult();
 
 	SC_CTOR (dh_hw_mult) : 
 		clk("clk"), hw_mult_enable("hw_mult_enable"), in_data_1("in_data_1"), in_data_2("in_data_2"),out_data_high("out_data_high"), out_data_low("out_data_low"), hw_mult_done("hw_mult_done"), mult_a0("mult_a0"), mult_a1("mult_a1"), mult_u("mult_u"), mult_t("mult_t"), a0_plus_u("a0_plus_u"), a1_plus_shift_t("a1_plus_shift"), a1_plus_const("a1_plus_const"), t_plus_u("t_plus_u"), constants("constants"), a0("a0"), a1("a1"), u("u"), t("t"), a0_mux("a0_mux"), u_mux("u_mux"), t_mux("t_mux"), a1_mux("a1_mux"), t_shift_left("t_shift_left"), t_shift_right("t_shift_right"), splitter("splitter") {
