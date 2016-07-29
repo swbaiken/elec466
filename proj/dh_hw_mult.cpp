@@ -107,6 +107,10 @@ void dh_hw_mult::state_control() {
 					std::cout << "Found done as true in WAIT.\n";
 					hw_mult_done.write(false);
 				}
+				
+				if (hw_mult_enable.read() == true) {
+					mult_enable.write(true);
+				}
 				break;
 				
 			case S1_EXECUTE:
@@ -117,8 +121,9 @@ void dh_hw_mult::state_control() {
 				}
 				
 				// Action
-				mult_enable.write(true);
-				
+				if (mult_done.read() == true) {
+					mult_enable.write(false);
+				}
 				//dh_hw_mult::do_mult(); // Part 3 is to cut this up into its own machine
 				break;
 				
@@ -135,7 +140,6 @@ void dh_hw_mult::state_control() {
 				}
 				
 				//Action
-				mult_enable.write(false);
 				hw_mult_done.write(true);
 				break;
 				
