@@ -109,24 +109,23 @@ void dh_hw_mult::state_control() {
 					hw_mult_done.write(false);
 				}
 				
-				// if (hw_mult_enable.read() == true) {
-					// mult_enable.write(true);
-				// }
+				if (hw_mult_enable.read() == true) {
+					mult_enable.write(true);
+				}
 				break;
 				
 			case S1_EXECUTE:
 				//std::cout << "EXECUTE - (" << sc_time_stamp() << ") HW EN: " << hw_mult_enable.read() << " HW DN: " << hw_mult_done.read() << " M EN: " << mult_enable.read() << " M DN: " << mult_done.read() << endl;
-				//Control
-				// if (mult_done.read() == true) {
-					// next_state.write(S2_OUTPUT);
-				// }
+				// Control
+				if (mult_done.read() == true) {
+					next_state.write(S2_OUTPUT);
+				}
 				
-				// // Action
-				// if (mult_done.read() == true) {
-					// mult_enable.write(false);
-				// }
+				// Action
+				if (mult_done.read() == true) {
+					mult_enable.write(false);
+				}
 				dh_hw_mult::do_mult(); // Part 3 is to cut this up into its own machine
-				next_state.write(S2_OUTPUT);
 				break;
 				
 			case S2_OUTPUT:
