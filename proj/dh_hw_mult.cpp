@@ -109,10 +109,11 @@ void dh_hw_mult::state_output() {
 		
 		switch(state.read()) {
 			case S0_WAIT:
+				std::cout << "WAIT - done: " << hw_mult_done.read() << endl;
 				if (hw_mult_done.read() == true) {
+					std::cout << "Found done as true in WAIT.\n";
 					hw_mult_done.write(false);
 				}
-				std::cout << "WAIT - done: " << hw_mult_done.read() << endl;
 				break;
 				
 			case S1_EXECUTE:
