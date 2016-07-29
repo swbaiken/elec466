@@ -125,6 +125,7 @@ void dh_hw_mult::state_control() {
 				// if (mult_done.read() == true) {
 					// mult_enable.write(false);
 				// }
+				std::cout << "lets go" << endl;
 				dh_hw_mult::do_mult(); // Part 3 is to cut this up into its own machine
 				break;
 				
