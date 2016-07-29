@@ -112,12 +112,12 @@ void dh_hw_mult::state_output() {
 				if (hw_mult_done.read() == true) {
 					hw_mult_done.write(false);
 				}
-				//std::cout << "WAIT - done: " << hw_mult_done.read() << endl;
+				std::cout << "WAIT - done: " << hw_mult_done.read() << endl;
 				break;
 				
 			case S1_EXECUTE:
 				mult_enable.write(true);
-				//std::cout << "EXECUTE - out data: " << out_data_low.read() << " " << out_data_high.read() << endl;
+				std::cout << "EXECUTE - in data: " << in_data_1.read() << " " << in_data_2.read() << endl;
 				//dh_hw_mult::do_mult(); // Part 3 is to cut this up into its own machine
 				break;
 				
