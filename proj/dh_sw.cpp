@@ -982,11 +982,13 @@ unsigned int digits
   NN_Assign (v, c, digits);
 
   while (! NN_Zero (v, digits)) {
+	  std::cout << NN_Zero (v, digits) << " ";
     NN_Mod (t, u, digits, v, digits);
     NN_Assign (u, v, digits);
     NN_Assign (v, t, digits);
   }
 
+  std::cout << endl;
   NN_Assign (a, u, digits);
 
   /* Zeroize potentially sensitive information.
