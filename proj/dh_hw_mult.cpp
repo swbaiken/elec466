@@ -171,7 +171,7 @@ void dh_hw_mult::state_control() {
 void dh_hw_mult::multiplier_control() {
 	
 	while(1) {
-		std::cout << "mult_control" << endl;
+		std::cout << "mult_control (" << mult_state.read() << ")" << endl;
 		switch (mult_state.read()) {
 			case MS0_WAIT:
 				if (mult_enable.read()) {
