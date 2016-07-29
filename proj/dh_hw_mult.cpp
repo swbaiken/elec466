@@ -95,6 +95,7 @@ void dh_hw_mult::state_control() {
 void dh_hw_mult::state_control() {
 	for(;;) {
 		//std::cout << "state_control" << endl;
+		
 		switch(state.read()) {
 			case S0_WAIT:
 				//std::cout << "WAIT - (" << sc_time_stamp() << ") HW EN: " << hw_mult_enable.read() << " HW DN: " << hw_mult_done.read() << " M EN: " << mult_enable.read() << " M DN: " << mult_done.read() << endl;
@@ -108,17 +109,12 @@ void dh_hw_mult::state_control() {
 				}
 				
 				// Action
-				// if (hw_mult_done.read() == true) {
-					// hw_mult_done.write(false);
-				// }
 				
-				//if (hw_mult_enable.read() == true) {
-					//mult_enable.write(true);
-				//}
 				break;
 				
 			case S1_EXECUTE:
 				//std::cout << "EXECUTE - (" << sc_time_stamp() << ") HW EN: " << hw_mult_enable.read() << " HW DN: " << hw_mult_done.read() << " M EN: " << mult_enable.read() << " M DN: " << mult_done.read() << endl;
+				
 				// Control
 				if (mult_done.read() == true) {
 					next_state.write(S2_OUTPUT);
@@ -126,9 +122,6 @@ void dh_hw_mult::state_control() {
 				
 				// Action
 				mult_enable.write(true);
-				// if (mult_done.read() == true) {
-					// mult_enable.write(false);
-				// }
 				//dh_hw_mult::do_mult(); // Part 3 is to cut this up into its own machine
 				break;
 				
@@ -151,24 +144,13 @@ void dh_hw_mult::state_control() {
 				
 			case S3_FINISH:
 				//std::cout << "FINISH - (" << sc_time_stamp() << ") HW EN: " << hw_mult_enable.read() << " HW DN: " << hw_mult_done.read() << " M EN: " << mult_enable.read() << " M DN: " << mult_done.read() << endl;
+				
 				// Control
 				next_state.write(S0_WAIT);
 				
 				// Action
 				hw_mult_done.write(false);
 				break;
-				/*
-			case S98_INIT:
-				// std::cout << "98 to 99 - done: " << hw_mult_done.read() << endl;
-				//hw_mult_done_s.write(true);
-				hw_mult_done.write(true);
-				break;
-				
-			case S99_INIT:
-				// std::cout << "99 to 0 - done: " << hw_mult_done.read() << endl;
-				//hw_mult_done_s.write(false);
-				hw_mult_done.write(false);
-				break;*/
 				
 			default:
 				break;
