@@ -50,47 +50,47 @@ void dh_hw_mult::state_advance() {
 	}
 }
 
-// void dh_hw_mult::state_control() {
-	// for(;;) {
-		// switch(state.read()) {
-			// case S0_WAIT:
-				// break;
+/*
+void dh_hw_mult::state_control() {
+	for(;;) {
+		switch(state.read()) {
+			case S0_WAIT:
+				break;
 				
-			// case S1_EXECUTE:
-				// break;
+			case S1_EXECUTE:
+				break;
 				
-			// case S2_OUTPUT:
-				// // 
-				// break;
+			case S2_OUTPUT:
+				// 
+				break;
 				
-			// case S3_FINISH:
-				// next_state.write(S0_WAIT);
-				// // std::cout << "
-				// break;
+			case S3_FINISH:
+				next_state.write(S0_WAIT);
+				// std::cout << "
+				break;
 				
-			// /*case S98_INIT:
-				// next_state.write(S99_INIT);
-				// // std::cout << "HW EN: " << hw_mult_enable.read() << " HW DN: " << hw_mult_done.read() << " M DN: " << mult_done.read() << " S98" << endl;
-				// break;
+			case S98_INIT:
+				next_state.write(S99_INIT);
+				// std::cout << "HW EN: " << hw_mult_enable.read() << " HW DN: " << hw_mult_done.read() << " M DN: " << mult_done.read() << " S98" << endl;
+				break;
 				
-			// case S99_INIT:
-				// next_state.write(S0_WAIT);
-				// // std::cout << "HW EN: " << hw_mult_enable.read() << " HW DN: " << hw_mult_done.read() << " M DN: " << mult_done.read() << " S99" << endl;
-				// break;
-				// */
-			// default:
-				// next_state.write(S0_WAIT);
-		// }
-		// wait();
-	// }
-// }
+			case S99_INIT:
+				next_state.write(S0_WAIT);
+				// std::cout << "HW EN: " << hw_mult_enable.read() << " HW DN: " << hw_mult_done.read() << " M DN: " << mult_done.read() << " S99" << endl;
+				break;
+				
+			default:
+				next_state.write(S0_WAIT);
+		}
+		wait();
+	}
+}*/
 
 void dh_hw_mult::state_control() {
 	for(;;) {
-		
 		switch(state.read()) {
 			case S0_WAIT:
-				std::cout << "WAIT - HW EN: " << hw_mult_enable.read() << " HW DN: " << hw_mult_done.read() << " M DN: " << mult_done.read() << endl;
+				std::cout << "WAIT - (" << sc_time_stamp() << ") HW EN: " << hw_mult_enable.read() << " HW DN: " << hw_mult_done.read() << " M DN: " << mult_done.read() << endl;
 				
 				// Control
 				if (hw_mult_enable.read() == true) {
@@ -108,7 +108,7 @@ void dh_hw_mult::state_control() {
 				break;
 				
 			case S1_EXECUTE:
-				std::cout << "EXECUTE - HW EN: " << hw_mult_enable.read() << " HW DN: " << hw_mult_done.read() << " M DN: " << mult_done.read() << endl;
+				std::cout << "EXECUTE - (" << sc_time_stamp() << ") HW EN: " << hw_mult_enable.read() << " HW DN: " << hw_mult_done.read() << " M DN: " << mult_done.read() << endl;
 				//Control
 				if (mult_done.read() == true) {
 					next_state.write(S2_OUTPUT);
@@ -121,7 +121,7 @@ void dh_hw_mult::state_control() {
 				break;
 				
 			case S2_OUTPUT:
-				std::cout << "OUTPUT - HW EN: " << hw_mult_enable.read() << " HW DN: " << hw_mult_done.read() << " M DN: " << mult_done.read() << endl;
+				std::cout << "OUTPUT - (" << sc_time_stamp() << ") HW EN: " << hw_mult_enable.read() << " HW DN: " << hw_mult_done.read() << " M DN: " << mult_done.read() << endl;
 				std::cout << in_data_1.read() << " " << in_data_2.read() << " " << out_data_high.read() << " " << out_data_low.read() << endl;
 				
 				// Control
@@ -138,7 +138,7 @@ void dh_hw_mult::state_control() {
 				break;
 				
 			case S3_FINISH:
-				std::cout << "FINISH - HW EN: " << hw_mult_enable.read() << " HW DN: " << hw_mult_done.read() << " M DN: " << mult_done.read() << endl;
+				std::cout << "FINISH - (" << sc_time_stamp() << ") HW EN: " << hw_mult_enable.read() << " HW DN: " << hw_mult_done.read() << " M DN: " << mult_done.read() << endl;
 				// Control
 				next_state.write(S0_WAIT);
 				
@@ -161,6 +161,7 @@ void dh_hw_mult::state_control() {
 			default:
 				break;
 		}
+		std::cout << "Next state (" << next_state.read() << ")" << endl;
 		wait();
 	}
 }
