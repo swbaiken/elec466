@@ -127,6 +127,7 @@ void dh_hw_mult::state_control() {
 				// }
 				std::cout << "lets go" << endl;
 				dh_hw_mult::do_mult(); // Part 3 is to cut this up into its own machine
+				next_state.write(S2_OUTPUT);
 				std::cout << "done" << endl;
 				break;
 				
