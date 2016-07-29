@@ -37,7 +37,7 @@
 } */
 
 
-void dh_hw_mult::state_reg() {
+void dh_hw_mult::state_advance() {
 	for (;;) {
 		//If we want to add a reset
 		//if (reset.read() == SC_LOGIC_1) state.write(S0_BEGIN);
@@ -50,40 +50,22 @@ void dh_hw_mult::state_reg() {
 	}
 }
 
-void dh_hw_mult::state_transition() {
+void dh_hw_mult::state_control() {
 	for(;;) {
 		switch(state.read()) {
 			case S0_WAIT:
-				if (hw_mult_enable.read() == true) {
-					next_state.write(S1_EXECUTE);
-				}
-				else {
-					next_state.write(S0_WAIT);
-				}
-				// std::cout << "HW EN: " << hw_mult_enable.read() << " HW DN: " << hw_mult_done.read() << " M DN: " << mult_done.read() << " WAIT" << endl;
 				break;
 				
 			case S1_EXECUTE:
-				if (mult_done.read() == true) {
-					next_state.write(S2_OUTPUT);
-				}
-				// std::cout << "HW EN: " << hw_mult_enable.read() << " HW DN: " << hw_mult_done.read() << " M DN: " << mult_done.read() << " EXECUTE" << endl;
 				break;
 				
 			case S2_OUTPUT:
-				if (hw_mult_enable.read() == true) {
-					next_state.write(S2_OUTPUT);
-				}
-				else {
-					next_state.write(S3_FINISH);
-				}
-				// std::cout << "HW EN: " << hw_mult_enable.read() << " HW DN: " << hw_mult_done.read() << " M DN: " << mult_done.read() << " OUTPUT" << endl;
-				// std::cout << in_data_1.read() << " " << in_data_2.read() << " " << out_data_high.read() << " " << out_data_low.read() << endl;
+				// 
 				break;
 				
 			case S3_FINISH:
 				next_state.write(S0_WAIT);
-				// std::cout << "HW EN: " << hw_mult_enable.read() << " HW DN: " << hw_mult_done.read() << " M DN: " << mult_done.read() << " FINISH" << endl;
+				// std::cout << "
 				break;
 				
 			/*case S98_INIT:
@@ -103,13 +85,22 @@ void dh_hw_mult::state_transition() {
 	}
 }
 
-void dh_hw_mult::state_output() {
+void dh_hw_mult::state_action() {
 	for(;;) {
-		// std::cout << "Doing!! ";
 		
 		switch(state.read()) {
 			case S0_WAIT:
-				std::cout << "WAIT - done: " << hw_mult_done.read() << endl;
+				std::cout << "WAIT - HW EN: " << hw_mult_enable.read() << " HW DN: " << hw_mult_done.read() << " M DN: " << mult_done.read() << endl;
+				
+				// Control
+				if (hw_mult_enable.read() == true) {
+					next_state.write(S1_EXECUTE);
+				}
+				else {
+					next_state.write(S0_WAIT);
+				}
+				
+				// Action
 				if (hw_mult_done.read() == true) {
 					std::cout << "Found done as true in WAIT.\n";
 					hw_mult_done.write(false);
@@ -117,22 +108,41 @@ void dh_hw_mult::state_output() {
 				break;
 				
 			case S1_EXECUTE:
+				std::cout << "EXECUTE - HW EN: " << hw_mult_enable.read() << " HW DN: " << hw_mult_done.read() << " M DN: " << mult_done.read() << endl;
+				//Control
+				if (mult_done.read() == true) {
+					next_state.write(S2_OUTPUT);
+				}
+				
+				// Action
 				mult_enable.write(true);
-				std::cout << "EXECUTE - in data: " << in_data_1.read() << " " << in_data_2.read() << endl;
+				
 				//dh_hw_mult::do_mult(); // Part 3 is to cut this up into its own machine
 				break;
 				
 			case S2_OUTPUT:
-				std::cout << "OUTPUT - out data: " << out_data_high.read() << " " << out_data_low.read() << endl;
-				// Extract output from do_mult?
+				std::cout << "OUTPUT - HW EN: " << hw_mult_enable.read() << " HW DN: " << hw_mult_done.read() << " M DN: " << mult_done.read() << endl;
+				std::cout << in_data_1.read() << " " << in_data_2.read() << " " << out_data_high.read() << " " << out_data_low.read() << endl;
+				
+				// Control
+				if (hw_mult_enable.read() == true) {
+					next_state.write(S2_OUTPUT);
+				}
+				else {
+					next_state.write(S3_FINISH);
+				}
+				
+				//Action
 				mult_enable.write(false);
-				//hw_mult_done_s.write(true);
 				hw_mult_done.write(true);
 				break;
 				
 			case S3_FINISH:
-				//std::cout << "FINISH" << endl;
-				//hw_mult_done_s.write(false);
+				std::cout << "FINISH - HW EN: " << hw_mult_enable.read() << " HW DN: " << hw_mult_done.read() << " M DN: " << mult_done.read() << endl;
+				// Control
+				next_state.write(S0_WAIT);
+				
+				// Action
 				hw_mult_done.write(false);
 				break;
 				/*
