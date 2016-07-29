@@ -33,8 +33,9 @@
 	a[1] += HIGH_HALF (t);
 	
 	// Write outputs
-	out_data_low.write(a[0]);
-	out_data_high.write(a[1]);
+	std::cout << "sw out " << a[1] << " " << a[0] << endl;
+	// out_data_low.write(a[0]);
+	// out_data_high.write(a[1]);
 }
 
 
