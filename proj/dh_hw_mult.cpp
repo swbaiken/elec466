@@ -161,7 +161,6 @@ void dh_hw_mult::state_control() {
 			default:
 				break;
 		}
-		std::cout << "Next state (" << next_state.read() << ")" << endl;
 		wait();
 	}
 }
