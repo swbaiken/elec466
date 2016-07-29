@@ -126,6 +126,7 @@ void dh_hw_mult::state_control() {
 					// mult_enable.write(false);
 				// }
 				dh_hw_mult::do_mult(); // Part 3 is to cut this up into its own machine
+				next_state.write(S2_OUTPUT);
 				break;
 				
 			case S2_OUTPUT:
