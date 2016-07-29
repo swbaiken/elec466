@@ -52,9 +52,8 @@ SC_MODULE (dh_hw_mult) {
 	//mem_unit<bool>		done;
 	
 	
-	void state_transition();
-	void state_reg();
-	void state_output();
+	void state_advance();
+	void state_control();
 	void multiplier_control();
 
 	SC_CTOR (dh_hw_mult) : 
