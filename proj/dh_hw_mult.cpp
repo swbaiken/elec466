@@ -89,7 +89,7 @@ void dh_hw_mult::state_control() {
 
 void dh_hw_mult::state_control() {
 	for(;;) {
-		std::cout << "state_control" << endl;
+		//std::cout << "state_control" << endl;
 		switch(state.read()) {
 			case S0_WAIT:
 				//std::cout << "WAIT - (" << sc_time_stamp() << ") HW EN: " << hw_mult_enable.read() << " HW DN: " << hw_mult_done.read() << " M EN: " << mult_enable.read() << " M DN: " << mult_done.read() << endl;
