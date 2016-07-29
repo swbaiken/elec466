@@ -39,6 +39,7 @@
 
 void dh_hw_mult::state_advance() {
 	for (;;) {
+		std::cout << "state_advance" << endl;
 		//If we want to add a reset
 		//if (reset.read() == SC_LOGIC_1) state.write(S0_BEGIN);
 		//else 
@@ -88,6 +89,7 @@ void dh_hw_mult::state_control() {
 
 void dh_hw_mult::state_control() {
 	for(;;) {
+		std::cout << "state_control" << endl;
 		switch(state.read()) {
 			case S0_WAIT:
 				std::cout << "WAIT - (" << sc_time_stamp() << ") HW EN: " << hw_mult_enable.read() << " HW DN: " << hw_mult_done.read() << " M EN: " << mult_enable.read() << " M DN: " << mult_done.read() << endl;
@@ -169,6 +171,7 @@ void dh_hw_mult::state_control() {
 void dh_hw_mult::multiplier_control() {
 	
 	while(1) {
+		std::cout << "mult_control" << endl;
 		switch (mult_state.read()) {
 			case MS0_WAIT:
 				if (mult_enable.read()) {
