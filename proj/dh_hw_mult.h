@@ -73,7 +73,7 @@ SC_MODULE (dh_hw_mult) {
 		
 		state.write(S0_WAIT);
 		next_state.write(S0_WAIT);
-		
+		mult_state.write(MS0_WAIT);
 		mult_enable.write(false);
 		mult_done.write(false);
 		//state.write(S98_INIT);
