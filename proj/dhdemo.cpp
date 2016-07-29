@@ -1,6 +1,7 @@
 #include "systemc.h"
 #include "digit.h"
-#include "dh_sw.h"
+//#include "dh_sw.h"
+#include "test.h"
 #include "dh_hw_mult.h"
 
 int sc_main(int argc , char *argv[])
