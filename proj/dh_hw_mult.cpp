@@ -2,7 +2,10 @@
 #include "digit.h"
 #include "dh_hw_mult.h"
 
-
+/* Looking for: 
+*** Agreed Key: 09 2a f1 41 e2 93 61 d5
+*** Agreed Key: 64 30 94 c5 da d2 f6 da 49 6d 67 f1 16 55 b3 ea ee a2 c0 30 2b b5 4f 05 9e a4 58 ac 97 3b b9 a0 25 b7 56 fe 82 73 bb 22 d4 31 36 60 7f 41 e9 47 97 b9 5e 27 99 3e 73 f0 28 da b5 25 da e4 61 84
+*/
 
 
 
