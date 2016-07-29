@@ -228,7 +228,6 @@ void dh_hw_mult::multiplier_control() {
 				
 				// std::cout << "t: " << t_out.read() << " u: " << u_out.read() << endl;
 				if (t_out.read() < u_out.read()) {
-					std::cout << "t<u" << endl;
 					a1_in_mux.write(1);
 					wait();
 					a1_en.write(1);
