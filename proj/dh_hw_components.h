@@ -1,12 +1,12 @@
 #ifndef DH_HW_COMPONENTS_H
-#define DH_HW_COMPONENTS_H
+#define DH_HW_COMPONENTS_H 1
 
 #include "digit.h"
 #include "systemc.h"
 
 
 /*
- * COMPONENT
+ * COMPONENT TEMPLATE
  *
 
 SC_MODULE (COMPONENT) {
@@ -17,7 +17,7 @@ SC_MODULE (COMPONENT) {
 	void func(void) {
 	}
 	
-	SC_CTOR(COMPONENT) : {
+	SC_CTOR(COMPONENT) : init{
 			SC_(func);
 				sensitive << input;
 	}
@@ -27,7 +27,6 @@ SC_MODULE (COMPONENT) {
 /*
  * Multiplier
  */
-
 SC_MODULE (multiplier) {
 	sc_in<NN_HALF_DIGIT>	in1;
 	sc_in<NN_HALF_DIGIT>	in2;
@@ -44,10 +43,10 @@ SC_MODULE (multiplier) {
 	}
 };
 
+
 /*
  * Adder
  */
-
 SC_MODULE (adder) {
 	sc_in<NN_DIGIT> in1;
 	sc_in<NN_DIGIT> in2;
@@ -64,10 +63,10 @@ SC_MODULE (adder) {
 	}
 };
 
-/*
- * Shift left by half - logical shift
- */
 
+/*
+ * Shift input left by half - logical shift
+ */
 SC_MODULE (half_shift_left) {
 	sc_in<NN_DIGIT> 	input;
 	
@@ -83,10 +82,10 @@ SC_MODULE (half_shift_left) {
 	}
 };
 
-/*
- * Shift right by half - logical shift
- */
 
+/*
+ * Shift input right by half - logical shift
+ */
 SC_MODULE (half_shift_right) {
 	sc_in<NN_DIGIT> 	input;
 	
@@ -102,12 +101,13 @@ SC_MODULE (half_shift_right) {
 	}
 };
 
+
 /*
  * Constants
+ * Output is based on sel value
  * 	0: 1 shifted left by NN_HALF_DIGIT_BITS
  *		1: 1
  */
-
 SC_MODULE (const_mem) {
 	sc_in<sc_uint<1> > 	sel;
 	
@@ -130,10 +130,10 @@ SC_MODULE (const_mem) {
 	}
 };
 
+
 /*
  * 2 Input Multiplexer
  */
-
 SC_MODULE (mux_2) {
 	sc_in<NN_DIGIT>	input0;
 	sc_in<NN_DIGIT>	input1;
@@ -160,10 +160,10 @@ SC_MODULE (mux_2) {
 	SC_HAS_PROCESS(mux_2);
 };
 
+
 /*
  * 3 Input Multiplexer
  */
-
 SC_MODULE (mux_3) {
 	sc_in<NN_DIGIT>	input0;
 	sc_in<NN_DIGIT>	input1;
@@ -184,7 +184,7 @@ SC_MODULE (mux_3) {
 				output.write(input2.read());
 				break;
 			case 3:
-				// Fall through to default
+				// Fall through to default - error case
 			default:
 				output.write(MAX_NN_DIGIT);
 				break;
@@ -197,10 +197,10 @@ SC_MODULE (mux_3) {
 	}
 };
 
-/*
- * Input splitter
- */
 
+/*
+ * Input splitter - split inputs into high half and low half
+ */
 SC_MODULE (input_splitter) {
 	sc_in<NN_DIGIT>	in0;
 	sc_in<NN_DIGIT>	in1;
@@ -223,10 +223,10 @@ SC_MODULE (input_splitter) {
 	}
 };
 
-/*
- * Memory unit
- */
 
+/*
+ * Memory unit - copy input to output on rising clock if enable is set
+ */
 template <class T>
 SC_MODULE (mem_unit) {
 	sc_in<T>		input;

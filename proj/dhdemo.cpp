@@ -32,9 +32,22 @@ int sc_main(int argc , char *argv[])
 	DH_HW_MULT.out_data_high (result2);	// result2 to software
 	DH_HW_MULT.out_data_low (result1);	// result1 to software
 	DH_HW_MULT.hw_mult_done (done);		// hardware done
+	
+	// Waveform trace generation
+
+	sc_trace_file* Tf=sc_create_vcd_trace_file("mult_trace");
+	
+	Tf->set_time_unit(1, SC_NS);
+	sc_trace(Tf, enable, "Enable");
+	sc_trace(Tf, done, "Done");
+	sc_trace(Tf, operand1, "Operand1");
+	sc_trace(Tf, operand2, "Operand2");
+	sc_trace(Tf, result1, "Result1");
+	sc_trace(Tf, result2, "Result2");
+	sc_trace(Tf, clock, "Clock");
 
 	sc_start();
-	//sc_start(10,SC_SEC);						// limit total run time
+	//sc_start(600,SC_SEC);						// limit total run time to 10 minutes
 
 	return(0);
 }

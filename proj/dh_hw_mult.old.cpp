@@ -59,15 +59,48 @@ void dh_hw_mult::state_advance() {
 	}
 }
 
+/*
+void dh_hw_mult::state_control() {
+	for(;;) {
+		switch(state.read()) {
+			case S0_WAIT:
+				break;
+				
+			case S1_EXECUTE:
+				break;
+				
+			case S2_OUTPUT:
+				// 
+				break;
+				
+			case S3_FINISH:
+				next_state.write(S0_WAIT);
+				// std::cout << "
+				break;
+				
+			case S98_INIT:
+				next_state.write(S99_INIT);
+				// std::cout << "HW EN: " << hw_mult_enable.read() << " HW DN: " << hw_mult_done.read() << " M DN: " << mult_done.read() << " S98" << endl;
+				break;
+				
+			case S99_INIT:
+				next_state.write(S0_WAIT);
+				// std::cout << "HW EN: " << hw_mult_enable.read() << " HW DN: " << hw_mult_done.read() << " M DN: " << mult_done.read() << " S99" << endl;
+				break;
+				
+			default:
+				next_state.write(S0_WAIT);
+		}
+		wait();
+	}
+}*/
 
 void dh_hw_mult::state_control() {
 	for(;;) {
-		// Debug output
 		//std::cout << "state_control" << endl;
 		
 		switch(state.read()) {
 			case S0_WAIT:
-				// Debug output
 				//std::cout << "WAIT - (" << sc_time_stamp() << ") HW EN: " << hw_mult_enable.read() << " HW DN: " << hw_mult_done.read() << " M EN: " << mult_enable.read() << " M DN: " << mult_done.read() << endl;
 				
 				// Control
@@ -79,10 +112,10 @@ void dh_hw_mult::state_control() {
 				}
 				
 				// Action
-				// 	No action
+				
 				break;
+				
 			case S1_EXECUTE:
-				// Debug output
 				//std::cout << "EXECUTE - (" << sc_time_stamp() << ") HW EN: " << hw_mult_enable.read() << " HW DN: " << hw_mult_done.read() << " M EN: " << mult_enable.read() << " M DN: " << mult_done.read() << endl;
 				
 				// Control
@@ -92,12 +125,10 @@ void dh_hw_mult::state_control() {
 				
 				// Action
 				mult_enable.write(true);
-				
-				//dh_hw_mult::do_mult(); // Software multiplier
+				//dh_hw_mult::do_mult(); // Part 3 is to cut this up into its own machine
 				break;
 				
 			case S2_OUTPUT:
-				// Debug output
 				//std::cout << "OUTPUT - (" << sc_time_stamp() << ") HW EN: " << hw_mult_enable.read() << " HW DN: " << hw_mult_done.read() << " M EN: " << mult_enable.read() << " M DN: " << mult_done.read() << endl;
 				//std::cout << in_data_1.read() << " " << in_data_2.read() << " " << out_data_high.read() << " " << out_data_low.read() << endl;
 				
@@ -115,7 +146,6 @@ void dh_hw_mult::state_control() {
 				break;
 				
 			case S3_FINISH:
-				// Debug output
 				//std::cout << "FINISH - (" << sc_time_stamp() << ") HW EN: " << hw_mult_enable.read() << " HW DN: " << hw_mult_done.read() << " M EN: " << mult_enable.read() << " M DN: " << mult_done.read() << endl;
 				
 				// Control
@@ -132,11 +162,10 @@ void dh_hw_mult::state_control() {
 	}
 }
 
-
+// must run on the clock
 void dh_hw_mult::multiplier_control() {
 	
 	while(1) {
-		// Debug output
 		//std::cout << "mult_control (" << mult_state.read() << ")" << endl;
 		switch (mult_state.read()) {
 			case MS0_WAIT:
@@ -155,7 +184,6 @@ void dh_hw_mult::multiplier_control() {
 				constants_sel.write(0);
 				wait();
 				
-				// Debug output
 				// std::cout << in0_high.read() << " " << in1_high.read() << " High" << endl;
 				// std::cout << in0_low.read() << " " << in1_low.read() << " Low" << endl << endl;
 				
@@ -166,7 +194,6 @@ void dh_hw_mult::multiplier_control() {
 				t_en.write(1);
 				wait();
 				
-				// Debug output
 				// std::cout << "post mult - a0:LL a1:HH u:HL t:LH" << endl;
 				// std::cout << "a0 " << a0_out.read() << "  a1 " << a1_out.read() << endl;
 				// std::cout << "t " << t_out.read() << "  u " << u_out.read() << endl << endl;
@@ -182,7 +209,6 @@ void dh_hw_mult::multiplier_control() {
 				t_en.write(1);
 				wait();
 				
-				// Debug output
 				// std::cout << "t = t + u" << endl;
 				// std::cout << "a0 " << a0_out.read() << "  a1 " << a1_out.read() << " " << endl;
 				// std::cout << "t " << t_out.read() << "  u " << u_out.read() << endl << endl;
@@ -191,7 +217,6 @@ void dh_hw_mult::multiplier_control() {
 				t_en.write(0);
 				wait();
 				
-				// Debug output
 				// std::cout << "t: " << t_out.read() << " u: " << u_out.read() << endl;
 				if (t_out.read() < u_out.read()) {
 					a1_in_mux.write(1);
@@ -205,7 +230,6 @@ void dh_hw_mult::multiplier_control() {
 				u_en.write(1);
 				wait();
 				
-				// Debug output
 				// std::cout << "if t < u then a1 += 00010000 - regardless, u = t<<16" << endl;
 				// std::cout << "a0 " << a0_out.read() << "  a1 " << a1_out.read() << " " << endl;
 				// std::cout << "t " << t_out.read() << "  u " << u_out.read() << endl << endl;
@@ -217,7 +241,6 @@ void dh_hw_mult::multiplier_control() {
 				a0_en.write(1);
 				wait();
 				
-				// Debug output
 				// std::cout << "a0 += u" << endl;
 				// std::cout << "a0 " << a0_out.read() << "  a1 " << a1_out.read() << " " << endl;
 				// std::cout << "t " << t_out.read() << "  u " << u_out.read() << endl << endl;
@@ -239,7 +262,6 @@ void dh_hw_mult::multiplier_control() {
 				a1_en.write(1);
 				wait();
 				
-				// Debug output
 				// std::cout << "t shifted right " << t_shift_right_out.read() << endl;
 				// std::cout << "if a0 < u then a1 += 1 - regardless, a1 += t>>16" << endl;
 				// std::cout << "a0 " << a0_out.read() << "  a1 " << a1_out.read() << " " << endl;
@@ -253,7 +275,6 @@ void dh_hw_mult::multiplier_control() {
 				mult_done.write(true);
 				mult_state = MS2_DONE;
 				
-				// Debug output
 				// std::cout << "done - should be same as above" << endl;
 				// std::cout << "a0 " << a0_out.read() << "  a1 " << a1_out.read() << " " << endl;
 				// std::cout << "t " << t_out.read() << "  u " << u_out.read() << endl << endl;
