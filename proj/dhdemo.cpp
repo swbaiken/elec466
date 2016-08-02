@@ -46,8 +46,12 @@ int sc_main(int argc , char *argv[])
 	sc_trace(Tf, result2, "Result2");
 	sc_trace(Tf, clock, "Clock");
 
-	sc_start();
-	//sc_start(600,SC_SEC);						// limit total run time to 10 minutes
+	//sc_start();
+	
+	//sc_start(,SC_SEC);						// limit total run time
+	sc_start(6000,SC_NS);					// limit total run time
+	
+	sc_close_vcd_trace_file(Tf);
 
 	return(0);
 }

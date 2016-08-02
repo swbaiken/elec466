@@ -67,7 +67,7 @@ SC_MODULE (dh_hw_mult) {
 			
 		SC_THREAD(state_advance)
 		// Assigns next_state signal to state signal
-			sensitive << clk.pos() << next_state;
+			sensitive << clk.pos();// << next_state;
 			dont_initialize();
 			
 		SC_THREAD(state_control);
